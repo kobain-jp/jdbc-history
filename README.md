@@ -214,7 +214,7 @@ com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
 
 ```
 
-### 4 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryを実装しよう
+### 4 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryの実装クラスを実装しよう
 
 1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
 
