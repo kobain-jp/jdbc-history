@@ -40,7 +40,7 @@ create src/main/resources/schema.sql
 
 ```
 
-CREATE TABLE IF NOT Exists book(id SERIAL,cover blob, title NVARCHAR(50), author NVARCHAR(50), note NVARCHAR(255));
+CREATE TABLE IF NOT Exists book(book_id SERIAL, isbn Long, title NVARCHAR(50), author NVARCHAR(50), release_date DATE);
 
 ```
 
@@ -48,9 +48,9 @@ create src/main/resources/data.sql
 
 ```
 
-INSERT INTO book(title, author, release_date, note) VALUES ('Slum Dunk 1巻','井上雄彦','1991-02-08','バスケ漫画');
-INSERT INTO book(title, author, release_date, note) VALUES ('ドラゴンボール　1巻','鳥山明','1985-09-10','悟空の成長物語');
-INSERT INTO book(title, author, release_date, note) VALUES ('BECK　1巻','ハロルド作石',null,'バンド漫画');
+INSERT INTO book(title, isbn,  author, release_date) VALUES ('SLAM DUNK 1',9784088716114,'井上雄彦','1991-02-08');
+INSERT INTO book(title, isbn,  author, release_date) VALUES ('SLAM DUNK 2',9784088716121,'井上雄彦','1991-06-10');
+INSERT INTO book(title, isbn,  author, release_date) VALUES ('リアル 1',9784088761435,'井上雄彦','2001-3-19');
 
 ```
 
@@ -59,7 +59,148 @@ RunAs > Spring Boot App
 open http://localhost:8080/h2-console
 
 click Connect
-
-
-
 spring.datasource.initialization-mode=alwaysを指定すると、schem.sql,data.sqlが起動時に毎回実行される
+
+open http://localhost:8080/swagger-ui/
+
+
+### 0 はじめに
+
+TestCaseを動かそう
+test/java/com/dojo/jdbchistoryrest/domain/repository/BookRepositoryTest.java
+
+JavaでSQLを実行するコードの歴史を辿っていこう
+
+DriverManager時代 -> DataSource -> JdbcTemplate -> Jpa
+
+さぁDriverManager時代からはじめよう
+
+### 1 DriverManager時代
+
+com/dojo/jdbchistoryrest/domain/repository/DriverManagerRepository.java
+
+```
+
+@Override
+	public List<Book> findAll() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		List<Book> bookList = new ArrayList<Book>();
+
+		try {
+			Class.forName(driverClassName);
+			con = DriverManager.getConnection(url, userName, password);
+			ps = con.prepareStatement("select * from book");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookId(rs.getLong("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setIsbn(rs.getLong("isbn"));
+				book.setAuthor(rs.getString("author"));
+				book.setReleaseDate(rs.getDate("release_date"));
+				bookList.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return bookList;
+	}
+
+```
+
+
+### 2 DataSource時代
+
+com/dojo/jdbchistoryrest/domain/book/repository/DataSourceRepository.java
+
+```
+private DataSource dataSource;
+
+	@Autowired
+	public DataSourceRepository(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	@Override
+	public List<Book> findAll() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		List<Book> bookList = new ArrayList<Book>();
+
+		try {
+			con = DataSourceUtils.getConnection(dataSource);
+			ps = con.prepareStatement("select * from book");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookId(rs.getLong("book_id"));
+				book.setTitle(rs.getString("title"));
+				book.setIsbn(rs.getLong("isbn"));
+				book.setAuthor(rs.getString("author"));
+				book.setReleaseDate(rs.getDate("release_date"));
+				bookList.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DataSourceUtils.releaseConnection(con, dataSource);
+		}
+		return bookList;
+	}
+	}
+
+
+```
+
+### 3 JdbcTemplate時代
+
+com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
+
+```
+
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	public JdbcTplRepository(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+	public List<Book> findAll() {
+
+		return jdbcTemplate.query("select * from book", new BeanPropertyRowMapper<Book>(Book.class));
+
+	}
+
+
+```
+
+
+
+
