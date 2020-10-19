@@ -28,11 +28,15 @@ src/main/resources/application.properties
 # DB Config
 spring.datasource.driver-class-name=org.h2.Driver
 spring.datasource.url=jdbc:h2:mem:demodb
-spring.datasource.username=sa　
-spring.datasource.password=dm
+spring.datasource.username=sa
+spring.datasource.password=
 spring.h2.console.enabled=true
 # init sql is kicked if always
 spring.datasource.initialization-mode=always
+# jpa
+spring.jpa.database=H2
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=none
 
 ```
 

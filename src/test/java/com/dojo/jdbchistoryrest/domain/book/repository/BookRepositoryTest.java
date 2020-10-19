@@ -21,11 +21,11 @@ import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 public class BookRepositoryTest {
 
 	@Autowired
-	//@Qualifier("driverManagerBookRepository")
+	@Qualifier("driverManagerBookRepository")
 	//@Qualifier("dataSourceBookRepository")
 	//@Qualifier("jdbcTplBookRepository")
 	//@Qualifier("namedPramJdbcTplRepository")
-	@Qualifier("jpaBookReposiroty")
+	//@Qualifier("jpaBookReposiroty")
 	
 	IBookRepository it;
  
