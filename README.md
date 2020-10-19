@@ -187,8 +187,7 @@ private DataSource dataSource;
 		}
 		return bookList;
 	}
-	}
-
+	
 
 ```
 
@@ -219,19 +218,44 @@ com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
 
 1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
 
-2. DataSourceUserRepositoryを実装する
+テストの仕方
 
-3. JdbcTplUserRepositoryを実装する
+UserRepositoryTest内の以下を修正し、UserRepositoryTestをjunit実行
+
+
+```
+        //@Qualifier("jdbcTplUserRepository")
+	@Qualifier("driverManagerUserRepository")
+	//@Qualifier("dataSourceUserRepository")
+
+```
+
+
+2. DataSourceBookRepositoryを参考にDataSourceUserRepositoryを実装する
 
 テストの仕方
 
-以下を修正し、UserRepositoryTest.javaを実行
+UserRepositoryTest内の以下を修正し、UserRepositoryTestをjunit実行
 
 driverManagerUserRepositoryをテストする場合
 
 ```
         //@Qualifier("jdbcTplUserRepository")
-	@Qualifier("driverManagerUserRepository")
+	//@Qualifier("driverManagerUserRepository")
+	@Qualifier("dataSourceUserRepository")
+
+```
+
+
+3. JdbcTplBookRepositoryを参考にJdbcTplUserRepositoryを実装する
+
+テストの仕方
+
+以下を修正し、UserRepositoryTest.javaを実行
+
+```
+        @Qualifier("jdbcTplUserRepository")
+	//@Qualifier("driverManagerUserRepository")
 	//@Qualifier("dataSourceUserRepository")
 
 ```
