@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.repository;
+package com.dojo.jdbchistoryrest.domain.book.repository;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -14,33 +14,28 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 
-import com.dojo.jdbchistoryrest.domain.entity.Book;
+import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @SpringBootTest
 public class BookRepositoryTest {
 
 	@Autowired
-	@Qualifier("driverManagerRepository")
-	//@Qualifier("dataSourceRepository")
-	//@Qualifier("jdbcTplRepository")
-	//@Qualifier("namedPramJdbcTplRepository")")
+	//@Qualifier("driverManagerBookRepository")
+	//@Qualifier("dataSourceBookRepository")
+	//@Qualifier("jdbcTplBookRepository")
+	//@Qualifier("namedPramJdbcTplRepository")
+	@Qualifier("jpaBookReposiroty")
+	
 	IBookRepository it;
-
+ 
 	@Test
 	public void testCount() {
 		assertThat(it.count(), is(3));
 	}
 
 	@Test
-	public void testDelete() {
-		assertThat(it.delete(2), is(1));
-		assertThat(it.findById(2).orElse(null), is(nullValue()));
-	}
-
-	@Test
-	public void testFindAll_ReturnList_IfHasResults() {
+	public void testFindAll() {
 
 		List<Book> bookList = new ArrayList<Book>();
 		Book book1 = new Book();
@@ -72,12 +67,12 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	public void testFindById_ReturnNull_IfNotHasResult() {
+	public void testFindById_ReturnNull_IfNotMatch() {
 		assertThat(it.findById(-1).orElse(null), is(nullValue()));
 	}
 
 	@Test
-	public void testFindById_ReturnBook_IfHasResult() {
+	public void testFindById_ReturnBook_IfMatched() {
 		Book book = new Book();
 		book.setBookId(1);
 		book.setTitle("SLAM DUNK 1");
@@ -88,7 +83,7 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	public void testFindByTitleLike_ReturnBooks_IfHasResult() {
+	public void testFindByTitleLike_ReturnBooks_IfMatched() {
 		List<Book> bookList = new ArrayList<Book>();
 		Book book1 = new Book();
 		book1.setBookId(1);
@@ -134,7 +129,11 @@ public class BookRepositoryTest {
 		book.setReleaseDate(Date.valueOf("1991-07-11"));
 		assertThat(it.update(1, book), is(1));
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(book)));
-
 	}
 
+	@Test
+	public void testDelete() {
+		assertThat(it.delete(2), is(1));
+		assertThat(it.findById(2).orElse(null), is(nullValue()));
+	}
 }

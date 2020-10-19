@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.repository;
+package com.dojo.jdbchistoryrest.domain.book.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,18 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import com.dojo.jdbchistoryrest.domain.entity.Book;
+import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@Repository("jdbcTplRepository")
-public class JdbcTplRepository implements IBookRepository{
-		
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
+@Repository("driverManagerRepository")
+public class DriverManagerBookRepository implements IBookRepository {
+
+	@Value("${spring.datasource.driver-class-name}")
+	private String driverClassName;
+	@Value("${spring.datasource.url}")
+	private String url;
+	@Value("${spring.datasource.username}")
+	private String userName;
+	@Value("${spring.datasource.password}")
+	private String password;
+
 	@Override
 	public List<Book> findAll() {
 		Connection con = null;
@@ -209,7 +214,6 @@ public class JdbcTplRepository implements IBookRepository{
 	public int create(Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
 			Class.forName(driverClassName);
@@ -240,11 +244,6 @@ public class JdbcTplRepository implements IBookRepository{
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
 				if (ps != null)
 					ps.close();
 			} catch (SQLException se2) {
@@ -263,7 +262,6 @@ public class JdbcTplRepository implements IBookRepository{
 	public int update(long id, Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
 			Class.forName(driverClassName);
@@ -295,11 +293,6 @@ public class JdbcTplRepository implements IBookRepository{
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
 				if (ps != null)
 					ps.close();
 			} catch (SQLException se2) {
@@ -318,7 +311,6 @@ public class JdbcTplRepository implements IBookRepository{
 	public int delete(long id) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
 			Class.forName(driverClassName);
@@ -346,11 +338,6 @@ public class JdbcTplRepository implements IBookRepository{
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
 				if (ps != null)
 					ps.close();
 			} catch (SQLException se2) {
@@ -365,5 +352,4 @@ public class JdbcTplRepository implements IBookRepository{
 		return 0;
 
 	}
-
 }

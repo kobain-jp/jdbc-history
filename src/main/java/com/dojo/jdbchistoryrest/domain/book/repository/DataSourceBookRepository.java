@@ -1,7 +1,6 @@
-package com.dojo.jdbchistoryrest.domain.repository;
+package com.dojo.jdbchistoryrest.domain.book.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,16 +11,21 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
-import com.dojo.jdbchistoryrest.domain.entity.Book;
+import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @Repository("dataSourceRepository")
-public class DataSourceRepository implements IBookRepository {
+public class DataSourceBookRepository implements IBookRepository {
+
+	private DataSource dataSource;
 
 	@Autowired
-	private DataSource dataSource;
-	
+	public DataSourceBookRepository(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
 	@Override
 	public List<Book> findAll() {
 		Connection con = null;
@@ -31,8 +35,7 @@ public class DataSourceRepository implements IBookRepository {
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = DataSourceUtils.getConnection(dataSource);
 			ps = con.prepareStatement("select * from book");
 			rs = ps.executeQuery();
 
@@ -47,25 +50,8 @@ public class DataSourceRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return bookList;
 	}
@@ -77,8 +63,7 @@ public class DataSourceRepository implements IBookRepository {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = DataSourceUtils.getConnection(dataSource);
 			ps = con.prepareStatement("select * from book where book_id = ?");
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
@@ -94,25 +79,8 @@ public class DataSourceRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return Optional.empty();
 	}
@@ -126,8 +94,7 @@ public class DataSourceRepository implements IBookRepository {
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = DataSourceUtils.getConnection(dataSource);
 			ps = con.prepareStatement("select * from book where title like '%'||?||'%'");
 			ps.setString(1, author);
 			rs = ps.executeQuery();
@@ -143,25 +110,8 @@ public class DataSourceRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return bookList;
 	}
@@ -173,8 +123,8 @@ public class DataSourceRepository implements IBookRepository {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+
+			con = DataSourceUtils.getConnection(dataSource);
 			ps = con.prepareStatement("select count(*) as cnt from book");
 			rs = ps.executeQuery();
 
@@ -183,25 +133,8 @@ public class DataSourceRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return 0;
 	}
@@ -210,12 +143,9 @@ public class DataSourceRepository implements IBookRepository {
 	public int create(Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
-
+			con = DataSourceUtils.getConnection(dataSource);
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("insert into book (isbn,title,author,release_date) values (?,?,?,?)");
@@ -237,25 +167,8 @@ public class DataSourceRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return 0;
 	}
@@ -264,12 +177,10 @@ public class DataSourceRepository implements IBookRepository {
 	public int update(long id, Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
 
+			con = DataSourceUtils.getConnection(dataSource);
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("update book set isbn=? ,title=? ,author=? ,release_date=? where book_id = ?");
@@ -292,25 +203,8 @@ public class DataSourceRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.releaseConnection(con, dataSource);
 		}
 		return 0;
 	}
@@ -319,18 +213,16 @@ public class DataSourceRepository implements IBookRepository {
 	public int delete(long id) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = DataSourceUtils.getConnection(dataSource);
 
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("delete from book where book_id = ?");
 			ps.setLong(1, id);
-			int deletedCount = ps.executeUpdate();
 
+			int deletedCount = ps.executeUpdate();
 			con.commit();
 
 			return deletedCount;
@@ -343,25 +235,8 @@ public class DataSourceRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			DataSourceUtils.getConnection(dataSource);
 		}
 		return 0;
 

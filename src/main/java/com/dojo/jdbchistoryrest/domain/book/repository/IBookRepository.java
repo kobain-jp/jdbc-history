@@ -1,9 +1,9 @@
-package com.dojo.jdbchistoryrest.domain.repository;
+package com.dojo.jdbchistoryrest.domain.book.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.dojo.jdbchistoryrest.domain.entity.Book;
+import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 public interface IBookRepository {
 

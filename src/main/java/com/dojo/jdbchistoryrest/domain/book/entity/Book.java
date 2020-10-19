@@ -1,9 +1,14 @@
-package com.dojo.jdbchistoryrest.domain.entity;
+package com.dojo.jdbchistoryrest.domain.book.entity;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Book {
 
+	@Id
 	private long bookId;
 	private long isbn;
 	private String title;
