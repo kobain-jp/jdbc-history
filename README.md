@@ -214,7 +214,48 @@ com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
 
 ```
 
-### 4 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryの実装クラスを実装しよう
+### 4 jpa時代のfindAll(select * from Book)
+
+Bookにアノテーションをつける
+
+```
+@Entity
+public class Book {
+
+	@Id
+	private long bookId;
+
+```
+
+JpaReposirotyを継承したinterfaceを作る
+
+```
+public interface IBookJpaRepository extends JpaRepository<Book, Long> {
+
+}
+
+```
+
+今回のインターフェースに合わせるべく移譲のAdapterパターンを使う
+
+com/dojo/jdbchistoryrest/domain/book/repository/JpaBookReposiroty.java
+
+```
+	IBookJpaRepository repository;
+	
+	@Autowired
+	public JpaBookReposiroty(IBookJpaRepository repository) {
+		this.repository=repository;
+	}
+
+	@Override
+	public List<Book> findAll() {
+		return repository.findAll();
+	}
+	
+```
+
+### 5 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryの実装クラスを実装しよう
 
 1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
 
