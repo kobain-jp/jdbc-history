@@ -72,16 +72,25 @@ test/java/com/dojo/jdbchistoryrest/domain/repository/BookRepositoryTest.java
 JavaでSQLを実行するコードの歴史を辿っていこう
 
 DriverManager時代 -> DataSource -> JdbcTemplate -> Jpa
-
 さぁDriverManager時代からはじめよう
 
-### 1 DriverManager時代
+### 1 DriverManager時代のfindAll(select * from Book)
 
 com/dojo/jdbchistoryrest/domain/repository/DriverManagerRepository.java
 
 ```
 
-@Override
+	@Value("${spring.datasource.driver-class-name}")
+	private String driverClassName;
+	@Value("${spring.datasource.url}")
+	private String url;
+	@Value("${spring.datasource.username}")
+	private String userName;
+	@Value("${spring.datasource.password}")
+	private String password;
+
+
+        @Override
 	public List<Book> findAll() {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -132,7 +141,7 @@ com/dojo/jdbchistoryrest/domain/repository/DriverManagerRepository.java
 ```
 
 
-### 2 DataSource時代
+### 2 DataSource時代のfindAll(select * from Book)
 
 com/dojo/jdbchistoryrest/domain/book/repository/DataSourceRepository.java
 
@@ -178,7 +187,7 @@ private DataSource dataSource;
 
 ```
 
-### 3 JdbcTemplate時代
+### 3 JdbcTemplate時代のfindAll(select * from Book)
 
 com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
 
@@ -200,6 +209,32 @@ com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
 
 
 ```
+
+### 4 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryを実装しよう
+
+1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
+
+2. DataSourceUserRepositoryを実装する
+
+3. JdbcTplUserRepositoryを実装する
+
+テストの仕方
+
+以下を修正し、UserRepositoryTest.javaを実行
+
+driverManagerUserRepositoryをテストする場合
+
+```
+        //@Qualifier("jdbcTplUserRepository")
+	@Qualifier("driverManagerUserRepository")
+	//@Qualifier("dataSourceUserRepository")
+
+```
+
+
+
+
+
 
 
 
