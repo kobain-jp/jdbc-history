@@ -278,7 +278,7 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 
 ### 実装稽古5. Jpaを実装しよう
 
-
+```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepository.java
 実装クラス:com.dojo.jdbchistoryrest.domain.user.entity.User.java
 テストクラス：com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepositoryTest.java
