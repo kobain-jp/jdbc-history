@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,7 @@ public class JdbcTplUserRepository implements IUserReposiroty {
 
 	@Override
 	public List<User> findAll() {
-		//return jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<User>(User.class));
-		return null;
+		return jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<User>(User.class));
 	}
 
 	@Override

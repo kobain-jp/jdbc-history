@@ -28,8 +28,8 @@ class UserjdbcDaoSpTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		it = new UserJdbcDaoSpDs();
-		// it = new UserJdbcDaoSpJdbcTpl();
+		 it = new UserJdbcDaoSpDs();
+		//it = new UserJdbcDaoSpJdbcTpl();
 		((JdbcDaoSupport) it).setDataSource(dataSource);
 	}
 

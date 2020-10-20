@@ -1,6 +1,9 @@
 package com.dojo.jdbchistoryrest.domain.user.dao;
 
-import java.sql.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,26 +17,37 @@ public class UserJdbcDaoSpDs extends JdbcDaoSupport implements IUserDao {
 	@Override
 	public List<User> findAll() {
 
-		List<User> list = new ArrayList<User>();
-		User user1 = new User();
-		user1.setUserId(3);
-		user1.setUserName("user3");
-		user1.setBirthDay(Date.valueOf("2003-03-03"));
-		list.add(user1);
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
-		return list;
+		List<User> userList = new ArrayList<User>();
+
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("select * from user");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				User user = new User();
+				user.setUserId(rs.getLong("user_id"));
+				user.setUserName(rs.getString("user_name"));
+				user.setBirthDay(rs.getDate("birthday"));
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			releaseConnection(con);
+		}
+		return userList;
+
 	}
 
 	@Override
 	public Optional<User> findById(long id) {
 		// TODO Auto-generated method stub
-
-		User user1 = new User();
-		user1.setUserId(3);
-		user1.setUserName("user3");
-		user1.setBirthDay(Date.valueOf("2003-03-03"));
-
-		return Optional.ofNullable(user1);
+		return Optional.empty();
 	}
 
 	@Override
