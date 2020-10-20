@@ -19,7 +19,7 @@ import com.dojo.jdbchistoryrest.domain.user.entity.User;
 class UserReposirotyTest {
 
 	@Autowired
-	@Qualifier("jdbcTplUserRepository")
+	@Qualifier("namedPramJdbcTplUserRepository")
 	IUserReposiroty it;
 
 	@Test

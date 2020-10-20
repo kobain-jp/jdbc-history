@@ -41,7 +41,6 @@ public class BookJdbcDaoSpDs extends JdbcDaoSupport implements IBook {
 			e.printStackTrace();
 		} finally {
 			releaseConnection(con);
-			;
 		}
 		return bookList;
 	}

@@ -6,17 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@Repository("jdbcTplUserRepository")
-public class JdbcTplUserRepository implements IUserReposiroty {
+@Repository("namedPramJdbcTplUserRepository")
+public class NamedPramJdbcTplUserRepository implements IUserReposiroty {
 
-	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public JdbcTplUserRepository(JdbcTemplate jdbcTemplate) {
+	public NamedPramJdbcTplUserRepository(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
