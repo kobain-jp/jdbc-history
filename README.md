@@ -238,6 +238,7 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserDao.java
 テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserDaoTest.java
+
 参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookDao.java
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookDaoTest.java
 ```
@@ -247,42 +248,42 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpDs.java
 テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java
+
 参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java
 ```
 
-3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
+### 実装稽古3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
 
-実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java`
-
-テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java`
+```
+実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java
+テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java
 *setUpメソッドを一部修正
 
-参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java`
+参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java
+*setUpメソッドを一部修正
+```
 
-参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java`
+### 実装稽古4. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
+
+```
+実装クラス:com.dojo.jdbchistoryrest.domain.user.repository.NamedPramJdbcTplUserRepository.java`
+テストクラス：com.dojo.jdbchistoryrest.domain.user.repository.UserReposirotyTest.java`
 *setUpメソッドを一部修正
 
-4. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
+参考クラス：com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepository.java
+参考テストクラス：com.dojo.jdbchistoryrest.domain.book.repository.BookRepositoryTest.java
+```
 
-実装クラス:`com.dojo.jdbchistoryrest.domain.user.repository.NamedPramJdbcTplUserRepository.java`
-
-テストクラス：`com.dojo.jdbchistoryrest.domain.user.repository.UserReposirotyTest.java`
-*setUpメソッドを一部修正
-
-参考クラス：`com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepository.java`
-
-参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.repository.BookRepositoryTest.java`
-
-5. Jpaを実装しよう
-
-実装クラス:`com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepository.java`
-
-テストクラス：`com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepositoryTest.java`
-*setUpメソッドを一部修正
-
-参考クラス：`com.dojo.jdbchistoryrest.domain.book.jpa.IUserJpaRepository.java`
-
-参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.jpa.IBookJpaRepositoryTest.java`
+### 実装稽古5. Jpaを実装しよう
 
 
+実装クラス:com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepository.java
+実装クラス:com.dojo.jdbchistoryrest.domain.user.entity.User.java
+テストクラス：com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepositoryTest.java
+
+参考クラス：com.dojo.jdbchistoryrest.domain.book.jpa.IUserJpaRepository.java
+実装クラス:com.dojo.jdbchistoryrest.domain.book.entity.Book.java
+参考テストクラス：com.dojo.jdbchistoryrest.domain.book.jpa.IBookJpaRepositoryTest.java
+```
