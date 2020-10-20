@@ -11,8 +11,6 @@ public interface IUserDao {
 
 	public Optional<User> findById(long id);
 
-	public int count();
-
 	public int create(User User);
 
 	public int update(long id, User User);

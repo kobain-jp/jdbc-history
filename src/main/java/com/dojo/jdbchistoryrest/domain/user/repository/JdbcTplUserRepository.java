@@ -26,6 +26,12 @@ public class JdbcTplUserRepository implements IUserReposiroty {
 	}
 
 	@Override
+	public void count() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public Optional<User> findById(long id) {
 		// TODO Auto-generated method stub
 		return null;
@@ -48,5 +54,7 @@ public class JdbcTplUserRepository implements IUserReposiroty {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }

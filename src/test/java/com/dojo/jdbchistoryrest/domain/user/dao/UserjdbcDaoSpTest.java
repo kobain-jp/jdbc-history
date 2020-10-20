@@ -28,15 +28,9 @@ class UserjdbcDaoSpTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		 it = new UserJdbcDaoSpDs();
-		//it = new UserJdbcDaoSpJdbcTpl();
+		it = new UserJdbcDaoSpDs();
+		// it = new UserJdbcDaoSpJdbcTpl();
 		((JdbcDaoSupport) it).setDataSource(dataSource);
-	}
-
-	@Test
-	public void testDelete() {
-		assertThat(it.delete(2), is(1));
-		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
 
 	@Test
@@ -63,6 +57,12 @@ class UserjdbcDaoSpTest {
 		user1.setBirthDay(Date.valueOf("2001-01-01"));
 
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(user1)));
+	}
+
+	@Test
+	public void testDelete() {
+		assertThat(it.delete(2), is(1));
+		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
 
 	@Test

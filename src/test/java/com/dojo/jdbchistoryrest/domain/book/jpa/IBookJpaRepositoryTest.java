@@ -60,6 +60,7 @@ class IBookJpaRepositoryTest {
 		assertThat(it.findById(-1L).orElse(null), is(nullValue()));
 	}
 
+	@Test
 	public void testFindById_ReturnBook_IfMatched() {
 		Book book = new Book();
 		book.setBookId(1);

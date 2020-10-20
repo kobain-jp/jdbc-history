@@ -35,12 +35,6 @@ public class UserJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IUserDao {
 	}
 
 	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int create(User user) {
 		// TODO Auto-generated method stub
 		return 0;

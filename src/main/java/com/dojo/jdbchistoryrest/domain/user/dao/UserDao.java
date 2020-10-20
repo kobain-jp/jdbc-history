@@ -1,7 +1,6 @@
 package com.dojo.jdbchistoryrest.domain.user.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
 public class UserDao implements IUserDao {
@@ -78,12 +76,6 @@ public class UserDao implements IUserDao {
 	@Override
 	public Optional<User> findById(long id) {
 		return Optional.empty();
-	}
-
-	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

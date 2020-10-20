@@ -11,6 +11,8 @@ public interface IUserReposiroty {
 
 	public Optional<User> findById(long id);
 
+	public void count();
+
 	public int delete(long id);
 
 	public int create(User user);
