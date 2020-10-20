@@ -22,8 +22,8 @@ public class JdbcTplUserRepository implements IUserReposiroty {
 
 	@Override
 	public List<User> findAll() {
-		return jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<User>(User.class));
-
+		//return jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<User>(User.class));
+		return null;
 	}
 
 	@Override

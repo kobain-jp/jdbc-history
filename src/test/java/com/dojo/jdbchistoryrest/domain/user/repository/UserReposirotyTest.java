@@ -19,8 +19,8 @@ import com.dojo.jdbchistoryrest.domain.user.entity.User;
 class UserReposirotyTest {
 
 	@Autowired
-	//@Qualifier("jdbcTplUserRepository")
-	@Qualifier("driverManagerUserRepository")
+	@Qualifier("jdbcTplUserRepository")
+	//@Qualifier("driverManagerUserRepository")
 	//@Qualifier("dataSourceUserRepository")
 	IUserReposiroty it;
 

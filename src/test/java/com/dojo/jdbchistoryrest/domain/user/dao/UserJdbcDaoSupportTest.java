@@ -43,5 +43,53 @@ class UserJdbcDaoSupportTest {
 
 		assertThat(it.findAll(), is(containsInAnyOrder(samePropertyValuesAs(user1), samePropertyValuesAs(user2))));
 	}
+	
+	@Test
+	public void testfindAllByJdbcTemplate_ReturnListContainsAllRecord() {
+
+		User user1 = new User();
+		user1.setUserId(1);
+		user1.setUserName("user1");
+		user1.setBirthDay(Date.valueOf("2001-01-01"));
+
+		User user2 = new User();
+		user2.setUserId(2);
+		user2.setUserName("user2");
+		user2.setBirthDay(Date.valueOf("2002-02-02"));
+
+		assertThat(it.findAllByJdbcTemplate(), is(containsInAnyOrder(samePropertyValuesAs(user1), samePropertyValuesAs(user2))));
+	}
+	
+	@Test
+	public void testfindAllByJdbcTemplateRowMapper_ReturnListContainsAllRecord() {
+
+		User user1 = new User();
+		user1.setUserId(1);
+		user1.setUserName("user1");
+		user1.setBirthDay(Date.valueOf("2001-01-01"));
+
+		User user2 = new User();
+		user2.setUserId(2);
+		user2.setUserName("user2");
+		user2.setBirthDay(Date.valueOf("2002-02-02"));
+
+		assertThat(it.findAllByJdbcTemplateRowMapper(), is(containsInAnyOrder(samePropertyValuesAs(user1), samePropertyValuesAs(user2))));
+	}
+	
+	@Test
+	public void findAllByJdbcTemplateRowMapperRamda_ReturnListContainsAllRecord() {
+
+		User user1 = new User();
+		user1.setUserId(1);
+		user1.setUserName("user1");
+		user1.setBirthDay(Date.valueOf("2001-01-01"));
+
+		User user2 = new User();
+		user2.setUserId(2);
+		user2.setUserName("user2");
+		user2.setBirthDay(Date.valueOf("2002-02-02"));
+
+		assertThat(it.findAllByJdbcTemplateRowMapperRamda(), is(containsInAnyOrder(samePropertyValuesAs(user1), samePropertyValuesAs(user2))));
+	}
 
 }
