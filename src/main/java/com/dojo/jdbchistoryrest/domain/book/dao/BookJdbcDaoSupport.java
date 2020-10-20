@@ -10,11 +10,10 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.stereotype.Component;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@Component
+
 public class BookJdbcDaoSupport extends JdbcDaoSupport {
 
 	public List<Book> findAll() {
