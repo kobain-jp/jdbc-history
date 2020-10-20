@@ -73,15 +73,14 @@ spring.datasource.initialization-mode=alwaysを指定すると、schem.sql,data.
 open http://localhost:8080/swagger-ui/
 
 
-### 0 はじめに
+### 0 今日やること
 
-TestCaseを動かそう
-test/java/com/dojo/jdbchistoryrest/domain/repository/BookRepositoryTest.java
-
-JavaでSQLを実行するコードの歴史を辿っていこう
+- JavaでSQLを実行するコードの歴史を辿っていこう(解説)
 
 DriverManager時代 -> DataSource -> JdbcTemplate -> Jpa
 さぁDriverManager時代からはじめよう
+
+- jdbcTemplate,jdbcDaoSupportを使えるようにしよう（実装）
 
 ### 1 DriverManager時代のfindAll(select * from Book)
 
@@ -261,6 +260,21 @@ com/dojo/jdbchistoryrest/domain/book/repository/JpaBookReposiroty.java
 
 ### 5 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryの実装クラスを実装しよう
 
+1. JdbcTplBookRepositoryを参考にJdbcTplUserRepositoryを実装する
+
+テストの仕方
+
+以下を修正し、UserRepositoryTest.javaを実行
+
+```
+        @Qualifier("jdbcTplUserRepository")
+	//@Qualifier("driverManagerUserRepository")
+	//@Qualifier("dataSourceUserRepository")
+
+```
+
+やってみたい人はあとで、以下をやってみよう（dojoではスキップ）
+
 1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
 
 テストの仕方
@@ -306,10 +320,11 @@ driverManagerUserRepositoryをテストする場合
 ```
 
 
+### 6 練習 BookJdbcDaoSupportの実装クラスを参考にUserJdbcDaoSupportの実装クラスを実装しよう
 
+テストの仕方
 
-
-
+UserJdbcDaoSupportTest.javaを実行
 
 
 
