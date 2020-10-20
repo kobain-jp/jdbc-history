@@ -232,32 +232,20 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 
 ```
 
-### 5 実装稽古　
 
-各稽古の流れ
-1. 参考クラス、参考テストクラスを実行して、動きを確認
-2. テストクラスを実行し、赤を緑へ
-
-
-1. DriverManagerのDaoを実装しよう
+### 実装稽古1. DriverManagerのDaoを実装しよう
 
 実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserDao.java`
-
 テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserDaoTest.java`
-
 参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookDao.java`
-
 参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookDaoTest.java`
 
 
-2. JdbcDaoSupportを継承してDAOを実装しよう（DataSouceを利用したもの）
+### 実装稽古2. JdbcDaoSupportを継承してDAOを実装しよう（DataSouceを利用したもの）
 
 実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpDs.java`
-
 テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java`
-
 参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java`
-
 参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java`
 
 3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
