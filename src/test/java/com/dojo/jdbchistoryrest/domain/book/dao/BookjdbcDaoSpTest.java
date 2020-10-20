@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.book.repository;
+package com.dojo.jdbchistoryrest.domain.book.dao;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -10,20 +10,31 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@SpringBootTest
-public class BookRepositoryTest {
+@JdbcTest
+class BookjdbcDaoSpTest {
+
+	IBook it;
 
 	@Autowired
-	@Qualifier("namedPramJdbcTplBookRepository")
-	// @Qualifier("jdbcTplBookRepository")
-	IBookRepository it;
+	DataSource dataSource;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new BookJdbcDaoSpDs();
+		// it = new BookJdbcDaoSpJdbcTpl();
+		((JdbcDaoSupport) it).setDataSource(dataSource);
+	}
 
 	@Test
 	public void testCount() {
@@ -132,4 +143,5 @@ public class BookRepositoryTest {
 		assertThat(it.delete(2), is(1));
 		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
+
 }

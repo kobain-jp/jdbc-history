@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@Repository("namedPramJdbcTplRepository")
+@Repository("namedPramJdbcTplBookRepository")
 public class NamedPramJdbcTplBookRepository implements IBookRepository {
 
 	private NamedParameterJdbcTemplate jdbcTemplate;

@@ -1,26 +1,15 @@
-package com.dojo.jdbchistoryrest.domain.user.repository;
+package com.dojo.jdbchistoryrest.domain.user.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@Repository("driverManagerUserRepository")
-public class DriverManagerUserRepository implements IUserReposiroty {
-
-	@Value("${spring.datasource.driver-class-name}")
-	private String driverClassName;
-	@Value("${spring.datasource.url}")
-	private String url;
-	@Value("${spring.datasource.username}")
-	private String userName;
-	@Value("${spring.datasource.password}")
-	private String password;
+public class UserJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IUserDao {
 
 	@Override
 	public List<User> findAll() {
@@ -48,7 +37,7 @@ public class DriverManagerUserRepository implements IUserReposiroty {
 	}
 
 	@Override
-	public int delete(long id) {
+	public int count() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -65,4 +54,9 @@ public class DriverManagerUserRepository implements IUserReposiroty {
 		return 0;
 	}
 
+	@Override
+	public int delete(long id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

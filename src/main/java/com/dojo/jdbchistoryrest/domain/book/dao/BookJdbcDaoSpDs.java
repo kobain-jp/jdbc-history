@@ -1,7 +1,6 @@
-package com.dojo.jdbchistoryrest.domain.book.repository;
+package com.dojo.jdbchistoryrest.domain.book.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,22 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@Repository("driverManagerRepository")
-public class DriverManagerBookRepository implements IBookRepository {
 
-	@Value("${spring.datasource.driver-class-name}")
-	private String driverClassName;
-	@Value("${spring.datasource.url}")
-	private String url;
-	@Value("${spring.datasource.username}")
-	private String userName;
-	@Value("${spring.datasource.password}")
-	private String password;
+public class BookJdbcDaoSpDs extends JdbcDaoSupport implements IBook {
 
 	@Override
 	public List<Book> findAll() {
@@ -35,8 +24,7 @@ public class DriverManagerBookRepository implements IBookRepository {
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = getConnection();
 			ps = con.prepareStatement("select * from book");
 			rs = ps.executeQuery();
 
@@ -51,25 +39,9 @@ public class DriverManagerBookRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
+			;
 		}
 		return bookList;
 	}
@@ -81,8 +53,7 @@ public class DriverManagerBookRepository implements IBookRepository {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = getConnection();
 			ps = con.prepareStatement("select * from book where book_id = ?");
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
@@ -98,25 +69,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return Optional.empty();
 	}
@@ -130,8 +84,7 @@ public class DriverManagerBookRepository implements IBookRepository {
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+			con = getConnection();
 			ps = con.prepareStatement("select * from book where title like '%'||?||'%'");
 			ps.setString(1, author);
 			rs = ps.executeQuery();
@@ -147,25 +100,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return bookList;
 	}
@@ -177,8 +113,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
+
+			con = getConnection();
 			ps = con.prepareStatement("select count(*) as cnt from book");
 			rs = ps.executeQuery();
 
@@ -187,25 +123,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return 0;
 	}
@@ -216,9 +135,7 @@ public class DriverManagerBookRepository implements IBookRepository {
 		PreparedStatement ps = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
-
+			con = getConnection();
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("insert into book (isbn,title,author,release_date) values (?,?,?,?)");
@@ -240,20 +157,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return 0;
 	}
@@ -264,9 +169,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 		PreparedStatement ps = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
 
+			con = getConnection();
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("update book set isbn=? ,title=? ,author=? ,release_date=? where book_id = ?");
@@ -289,20 +193,8 @@ public class DriverManagerBookRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return 0;
 	}
@@ -313,15 +205,13 @@ public class DriverManagerBookRepository implements IBookRepository {
 		PreparedStatement ps = null;
 
 		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
-
+			con = getConnection();
 			con.setAutoCommit(false);
 
 			ps = con.prepareStatement("delete from book where book_id = ?");
 			ps.setLong(1, id);
-			int deletedCount = ps.executeUpdate();
 
+			int deletedCount = ps.executeUpdate();
 			con.commit();
 
 			return deletedCount;
@@ -334,22 +224,11 @@ public class DriverManagerBookRepository implements IBookRepository {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
+			releaseConnection(con);
 		}
 		return 0;
 
 	}
+
 }

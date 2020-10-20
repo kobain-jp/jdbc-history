@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.user.repository;
+package com.dojo.jdbchistoryrest.domain.user.dao;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -8,19 +8,30 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@SpringBootTest
-class UserReposirotyTest {
+@JdbcTest
+class UserjdbcDaoSpTest {
+
+	IUserDao it;
 
 	@Autowired
-	@Qualifier("jdbcTplUserRepository")
-	IUserReposiroty it;
+	DataSource dataSource;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new UserJdbcDaoSpDs();
+		// it = new UserJdbcDaoSpJdbcTpl();
+		((JdbcDaoSupport) it).setDataSource(dataSource);
+	}
 
 	@Test
 	public void testDelete() {
@@ -76,5 +87,4 @@ class UserReposirotyTest {
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(user1)));
 
 	}
-
 }

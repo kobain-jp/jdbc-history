@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.book.repository;
+package com.dojo.jdbchistoryrest.domain.book.dao;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -10,20 +10,31 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @SpringBootTest
-public class BookRepositoryTest {
+class BookDaoTest {
 
-	@Autowired
-	@Qualifier("namedPramJdbcTplBookRepository")
-	// @Qualifier("jdbcTplBookRepository")
-	IBookRepository it;
+	BookDao it;
+
+	@Value("${spring.datasource.driver-class-name}")
+	String driverClassName;
+	@Value("${spring.datasource.url}")
+	String url;
+	@Value("${spring.datasource.username}")
+	String userName;
+	@Value("${spring.datasource.password}")
+	String password;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new BookDao(this.driverClassName, this.url, this.userName, this.password);
+	}
 
 	@Test
 	public void testCount() {
@@ -132,4 +143,5 @@ public class BookRepositoryTest {
 		assertThat(it.delete(2), is(1));
 		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
+
 }

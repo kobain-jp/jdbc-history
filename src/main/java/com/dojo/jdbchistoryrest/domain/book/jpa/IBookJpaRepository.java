@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.book.repository;
+package com.dojo.jdbchistoryrest.domain.book.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

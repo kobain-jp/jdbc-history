@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.user.repository;
+package com.dojo.jdbchistoryrest.domain.user.dao;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -8,19 +8,31 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
 @SpringBootTest
-class UserReposirotyTest {
+class UserDaoTest {
 
-	@Autowired
-	@Qualifier("jdbcTplUserRepository")
-	IUserReposiroty it;
+	UserDao it;
+
+	@Value("${spring.datasource.driver-class-name}")
+	String driverClassName;
+	@Value("${spring.datasource.url}")
+	String url;
+	@Value("${spring.datasource.username}")
+	String userName;
+	@Value("${spring.datasource.password}")
+	String password;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new UserDao(this.driverClassName, this.url, this.userName, this.password);
+	}
 
 	@Test
 	public void testDelete() {

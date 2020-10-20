@@ -23,7 +23,7 @@ public class BookResource {
 	private IBookRepository bookRepository;
 
 	@Autowired
-	public BookResource(@Qualifier("driverManagerRepository") IBookRepository bookRepository) {
+	public BookResource(@Qualifier("namedPramJdbcTplBookRepository") IBookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
 

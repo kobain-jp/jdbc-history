@@ -1,39 +1,31 @@
-package com.dojo.jdbchistoryrest.domain.book.dao;
+package com.dojo.jdbchistoryrest.domain.user.jpa;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@JdbcTest
-class BookJdbcDaoSupportTest {
+@DataJpaTest
+class IBookJpaRepositoryTest {
 
 	@Autowired
-	DataSource dataSource;
-
-	BookJdbcDaoSupport it;
-
-	@BeforeEach
-	void setUp() throws Exception {
-		it = new BookJdbcDaoSupport();
-		it.setDataSource(dataSource);
-	}
+	IUserJpaRepository it;
 
 	@Test
-	void testFindAll() {
+	public void testFindAll() {
+
 		List<Book> bookList = new ArrayList<Book>();
 		Book book1 = new Book();
 		book1.setBookId(1);
@@ -59,20 +51,25 @@ class BookJdbcDaoSupportTest {
 		book3.setReleaseDate(Date.valueOf("2001-3-19"));
 		bookList.add(book3);
 
-		it = new BookJdbcDaoSupport();
-		it.setDataSource(dataSource);
-
 		assertThat(it.findAll(), is(containsInAnyOrder(samePropertyValuesAs(book1), samePropertyValuesAs(book2),
 				samePropertyValuesAs(book3))));
 
-		assertThat(it.findAllByJdbcTemplate(), is(containsInAnyOrder(samePropertyValuesAs(book1),
-				samePropertyValuesAs(book2), samePropertyValuesAs(book3))));
+	}
 
-		assertThat(it.findAllByJdbcTemplateRowMapper(), is(containsInAnyOrder(samePropertyValuesAs(book1),
-				samePropertyValuesAs(book2), samePropertyValuesAs(book3))));
+	@Test
+	public void testFindById_ReturnNull_IfNotMatch() {
+		assertThat(it.findById(-1L).orElse(null), is(nullValue()));
+	}
 
-		assertThat(it.findAllByJdbcTemplateRowMapperRamda(), is(containsInAnyOrder(samePropertyValuesAs(book1),
-				samePropertyValuesAs(book2), samePropertyValuesAs(book3))));
+	@Test
+	public void testFindById_ReturnBook_IfMatched() {
+		Book book = new Book();
+		book.setBookId(1);
+		book.setTitle("SLAM DUNK 1");
+		book.setIsbn(9784088716114L);
+		book.setAuthor("井上雄彦");
+		book.setReleaseDate(Date.valueOf("1991-02-08"));
+		assertThat(it.findById(1L).orElse(null), is(samePropertyValuesAs(book)));
 	}
 
 }
