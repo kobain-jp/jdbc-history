@@ -73,165 +73,11 @@ spring.datasource.initialization-mode=alwaysを指定すると、schem.sql,data.
 open http://localhost:8080/swagger-ui/
 
 
-### 0 今日やること
+### 実装稽古の流れ
 
-- JavaでSQLを実行するコードの歴史を辿っていこう(解説)
-
-DriverManager時代 -> DataSource -> JdbcTemplate -> Jpa
-さぁDriverManager時代からはじめよう
-
-- Dao -> Dao Support(DataSource) -> jdbcTemplate -> Jpa の順に実装しよう
-
-### 1 DriverManagerを利用したfindAll(select * from Book)
-
-com/dojo/jdbchistoryrest/domain/book/dao/BookDao.java
-
-```
-
-	@Value("${spring.datasource.driver-class-name}")
-	private String driverClassName;
-	@Value("${spring.datasource.url}")
-	private String url;
-	@Value("${spring.datasource.username}")
-	private String userName;
-	@Value("${spring.datasource.password}")
-	private String password;
-
-
-        @Override
-	public List<Book> findAll() {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		List<Book> bookList = new ArrayList<Book>();
-
-		try {
-			Class.forName(driverClassName);
-			con = DriverManager.getConnection(url, userName, password);
-			ps = con.prepareStatement("select * from book");
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Book book = new Book();
-				book.setBookId(rs.getLong("book_id"));
-				book.setTitle(rs.getString("title"));
-				book.setIsbn(rs.getLong("isbn"));
-				book.setAuthor(rs.getString("author"));
-				book.setReleaseDate(rs.getDate("release_date"));
-				bookList.add(book);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (SQLException se2) {
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-		}
-		return bookList;
-	}
-
-```
-
-
-### 2 JdbcDaoSupportを利用したfindAll(select * from Book)
-
-com/dojo/jdbchistoryrest/domain/book/dao/BookJdbcDaoSpDs.java
-
-```
-	
-	@Override
-	public List<Book> findAll() {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		List<Book> bookList = new ArrayList<Book>();
-
-		try {
-			con = getConnection();
-			ps = con.prepareStatement("select * from book");
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Book book = new Book();
-				book.setBookId(rs.getLong("book_id"));
-				book.setTitle(rs.getString("title"));
-				book.setIsbn(rs.getLong("isbn"));
-				book.setAuthor(rs.getString("author"));
-				book.setReleaseDate(rs.getDate("release_date"));
-				bookList.add(book);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			releaseConnection(con);
-		}
-		return bookList;
-	}	
-
-```
-
-### 3 JdbcTemplate時代のfindAll(select * from Book)
-
-com/dojo/jdbchistoryrest/domain/book/repository/JdbcTplRepository.java
-
-```
-
-	private JdbcTemplate jdbcTemplate;
-
-	@Autowired
-	public JdbcTplRepository(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
-	@Override
-	public List<Book> findAll() {
-
-		return jdbcTemplate.query("select * from book", new BeanPropertyRowMapper<Book>(Book.class));
-
-	}
-
-
-```
-
-### 4 jpa時代のfindAll(select * from Book)
-
-Bookにアノテーションをつける
-
-```
-@Entity
-public class Book {
-
-	@Id
-	private long bookId;
-
-```
-
-JpaReposirotyを継承したinterfaceを作る
-
-```
-public interface IBookJpaRepository extends JpaRepository<Book, Long> {
-
-}
-
-```
-
+1. 参考クラスを参照する
+2. テストクラスを実行
+3. 実装クラスを実装し、赤を緑へ
 
 ### 実装稽古1. DriverManagerのDaoを実装しよう
 
@@ -286,4 +132,25 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 参考クラス：com.dojo.jdbchistoryrest.domain.book.jpa.IUserJpaRepository.java
 実装クラス:com.dojo.jdbchistoryrest.domain.book.entity.Book.java
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.jpa.IBookJpaRepositoryTest.java
+```
+
+ヒント参考クラスの実装メモ
+Bookにアノテーションをつける
+
+```
+@Entity
+public class Book {
+
+	@Id
+	private long bookId;
+
+```
+
+JpaReposirotyを継承したinterfaceを作る
+
+```
+public interface IBookJpaRepository extends JpaRepository<Book, Long> {
+
+}
+
 ```
