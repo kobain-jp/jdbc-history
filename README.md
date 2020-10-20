@@ -104,11 +104,11 @@ open http://localhost:8080/swagger-ui/
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java
 テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java
-*setUpメソッドを一部修正
+*setUpメソッドを一部修正して、itに代入される変数をUserJdbcDaoSpJdbcTplのインスタンスに変更
 
-参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java
+参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpJdbcTplDao.java
 参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java
-*setUpメソッドを一部修正
+*setUpメソッドを一部修正して、itに代入される変数をBookJdbcDaoSpJdbcTplのインスタンスに変更
 ```
 
 ### 実装稽古4. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
