@@ -80,11 +80,11 @@ open http://localhost:8080/swagger-ui/
 DriverManager時代 -> DataSource -> JdbcTemplate -> Jpa
 さぁDriverManager時代からはじめよう
 
-- jdbcTemplate,jdbcDaoSupportを使えるようにしよう（実装）
+- Dao -> Dao Support(DataSource) -> jdbcTemplate -> Jpa の順に実装しよう
 
-### 1 DriverManager時代のfindAll(select * from Book)
+### 1 DriverManagerを利用したfindAll(select * from Book)
 
-com/dojo/jdbchistoryrest/domain/repository/DriverManagerRepository.java
+com/dojo/jdbchistoryrest/domain/book/dao/BookDao.java
 
 ```
 
@@ -149,18 +149,12 @@ com/dojo/jdbchistoryrest/domain/repository/DriverManagerRepository.java
 ```
 
 
-### 2 DataSource時代のfindAll(select * from Book)
+### 2 JdbcDaoSupportを利用したfindAll(select * from Book)
 
-com/dojo/jdbchistoryrest/domain/book/repository/DataSourceRepository.java
+com/dojo/jdbchistoryrest/domain/book/dao/BookJdbcDaoSpDs.java
 
 ```
-private DataSource dataSource;
-
-	@Autowired
-	public DataSourceRepository(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-
+	
 	@Override
 	public List<Book> findAll() {
 		Connection con = null;
@@ -170,7 +164,7 @@ private DataSource dataSource;
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
-			con = DataSourceUtils.getConnection(dataSource);
+			con = getConnection();
 			ps = con.prepareStatement("select * from book");
 			rs = ps.executeQuery();
 
@@ -186,11 +180,10 @@ private DataSource dataSource;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataSourceUtils.releaseConnection(con, dataSource);
+			releaseConnection(con);
 		}
 		return bookList;
-	}
-	
+	}	
 
 ```
 
@@ -239,92 +232,66 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 
 ```
 
-今回のインターフェースに合わせるべく移譲のAdapterパターンを使う
+### 5 実装稽古　
 
-com/dojo/jdbchistoryrest/domain/book/repository/JpaBookReposiroty.java
-
-```
-	IBookJpaRepository repository;
-	
-	@Autowired
-	public JpaBookReposiroty(IBookJpaRepository repository) {
-		this.repository=repository;
-	}
-
-	@Override
-	public List<Book> findAll() {
-		return repository.findAll();
-	}
-	
-```
-
-### 5 練習 IBookReporistoryの実装クラスを参考にIUseRepositoryの実装クラスを実装しよう
-
-1. JdbcTplBookRepositoryを参考にJdbcTplUserRepositoryを実装する
-
-テストの仕方
-
-以下を修正し、UserRepositoryTest.javaを実行
-
-```
-        @Qualifier("jdbcTplUserRepository")
-	//@Qualifier("driverManagerUserRepository")
-	//@Qualifier("dataSourceUserRepository")
-
-```
-
-やってみたい人はあとで、以下をやってみよう（dojoではスキップ）
-
-1. DriveManagerBookReposirotyを参考にDriveManagerUserReposirotyを実装する
-
-テストの仕方
-
-UserRepositoryTest内の以下を修正し、UserRepositoryTestをjunit実行
+各稽古の流れ
+1. 参考クラス、参考テストクラスを実行して、動きを確認
+2. テストクラスを実行し、赤を緑へ
 
 
-```
-        //@Qualifier("jdbcTplUserRepository")
-	@Qualifier("driverManagerUserRepository")
-	//@Qualifier("dataSourceUserRepository")
+1. DriverManagerのDaoを実装しよう
 
-```
+実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserDao.java`
 
+テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserDaoTest.java`
 
-2. DataSourceBookRepositoryを参考にDataSourceUserRepositoryを実装する
+参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookDao.java`
 
-テストの仕方
-
-UserRepositoryTest内の以下を修正し、UserRepositoryTestをjunit実行
-
-driverManagerUserRepositoryをテストする場合
-
-```
-        //@Qualifier("jdbcTplUserRepository")
-	//@Qualifier("driverManagerUserRepository")
-	@Qualifier("dataSourceUserRepository")
-
-```
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookDaoTest.java`
 
 
-3. JdbcTplBookRepositoryを参考にJdbcTplUserRepositoryを実装する
+2. JdbcDaoSupportを継承してDAOを実装しよう（DataSouceを利用したもの）
 
-テストの仕方
+実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpDs.java`
 
-以下を修正し、UserRepositoryTest.javaを実行
+テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java`
 
-```
-        @Qualifier("jdbcTplUserRepository")
-	//@Qualifier("driverManagerUserRepository")
-	//@Qualifier("dataSourceUserRepository")
+参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java`
 
-```
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java`
 
+3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
 
-### 6 練習 BookJdbcDaoSupportの実装クラスを参考にUserJdbcDaoSupportの実装クラスを実装しよう
+実装クラス:`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java`
 
-テストの仕方
+テストクラス：`com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java`
+*setUpメソッドを一部修正
 
-UserJdbcDaoSupportTest.javaを実行
+参考クラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java`
 
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java`
+*setUpメソッドを一部修正
+
+4. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
+
+実装クラス:`com.dojo.jdbchistoryrest.domain.user.repository.NamedPramJdbcTplUserRepository.java`
+
+テストクラス：`com.dojo.jdbchistoryrest.domain.user.repository.UserReposirotyTest.java`
+*setUpメソッドを一部修正
+
+参考クラス：`com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepository.java`
+
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.repository.BookRepositoryTest.java`
+
+5. Jpaを実装しよう
+
+実装クラス:`com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepository.java`
+
+テストクラス：`com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepositoryTest.java`
+*setUpメソッドを一部修正
+
+参考クラス：`com.dojo.jdbchistoryrest.domain.book.jpa.IUserJpaRepository.java`
+
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.jpa.IBookJpaRepositoryTest.java`
 
 
