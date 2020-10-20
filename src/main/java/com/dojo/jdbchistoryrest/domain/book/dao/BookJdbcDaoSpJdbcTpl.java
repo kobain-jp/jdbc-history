@@ -19,6 +19,7 @@ public class BookJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IBook {
 
 		return getJdbcTemplate().query("select * from book", new RowMapper<Book>() {
 
+			@Override
 			public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Book book = new Book();
 				book.setBookId(rs.getLong("book_id"));

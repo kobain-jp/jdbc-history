@@ -16,7 +16,8 @@ public class UserJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IUserDao {
 	public List<User> findAll() {
 
 		return getJdbcTemplate().query("select * from user", new RowMapper<User>() {
-
+			
+			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				User user = new User();
 				user.setUserId(rs.getLong("user_id"));
