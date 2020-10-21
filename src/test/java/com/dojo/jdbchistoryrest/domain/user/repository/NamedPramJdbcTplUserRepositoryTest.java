@@ -99,7 +99,7 @@ public class NamedPramJdbcTplUserRepositoryTest {
 	}
 
 	@Test
-	public void testInsertCount() {
+	public void testInsertGetId() {
 		User user = new User();
 		user.setUserId(0);
 		user.setUserName("user3");
