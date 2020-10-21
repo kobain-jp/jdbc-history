@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.book.dao.template;
+package com.dojo.jdbchistoryrest.domain.book.dao.sql;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
