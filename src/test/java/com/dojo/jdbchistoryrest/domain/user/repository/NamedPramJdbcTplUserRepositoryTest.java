@@ -98,4 +98,25 @@ public class NamedPramJdbcTplUserRepositoryTest {
 
 	}
 
+	@Test
+	public void testInsertCount() {
+		User user = new User();
+		user.setUserId(0);
+		user.setUserName("user3");
+		user.setBirthDay(Date.valueOf("2003-03-03"));
+
+		int beforeCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "user");
+
+		int generatedIdActual = it.insertGetId(user);
+
+		assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, "user"), is(beforeCount + 1));
+
+		int generatedIdExpected = jdbcTemplate.queryForObject("Select max(user_id) from user", Integer.class);
+		
+		user.setUserId(generatedIdExpected);
+		assertThat(generatedIdActual, is(generatedIdExpected));
+		assertThat(it.findById(generatedIdExpected).orElse(null), is(samePropertyValuesAs(user)));
+
+	}
+
 }

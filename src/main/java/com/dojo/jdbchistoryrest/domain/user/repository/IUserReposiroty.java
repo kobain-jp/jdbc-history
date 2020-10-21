@@ -18,4 +18,6 @@ public interface IUserReposiroty {
 	public int create(User user);
 
 	public int update(long id, User user);
+	
+	public int insertGetId(User user);
 }
