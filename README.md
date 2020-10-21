@@ -80,7 +80,7 @@ open http://localhost:8080/swagger-ui/
 3. 実装クラスを実装し、赤を緑へ
 
 難易度の順
-`select -> delete -> insert -> update1`
+`select -> delete -> insert -> update`
 
 ### 実装稽古1. DriverManagerのDaoを実装しよう
 
