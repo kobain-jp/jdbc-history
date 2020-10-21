@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
 @DataJpaTest
-class IUserJpaRepositoryTest {
+public class IUserJpaRepositoryTest {
 
 	@Autowired
 	IUserJpaRepository it;

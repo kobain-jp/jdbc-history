@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @Repository("namedPramJdbcTplBookRepository")
-public class NamedPramJdbcTplBookRepository implements IBookRepository {
+public class NamedParamJdbcTplBookRepository implements IBookRepository {
 
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	public NamedPramJdbcTplBookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+	public NamedParamJdbcTplBookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate =jdbcTemplate;
 	}
 	

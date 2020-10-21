@@ -8,30 +8,28 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@SpringBootTest
-public class UserDaoTest {
+@JdbcTest
+public class UserJdbcDaoSpJdbcTplTest {
 
-	UserDao it;
+	IUserDao it;
 
-	@Value("${spring.datasource.driver-class-name}")
-	String driverClassName;
-	@Value("${spring.datasource.url}")
-	String url;
-	@Value("${spring.datasource.username}")
-	String userName;
-	@Value("${spring.datasource.password}")
-	String password;
+	@Autowired
+	DataSource dataSource;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		it = new UserDao(this.driverClassName, this.url, this.userName, this.password);
+		it = new UserJdbcDaoSpJdbcTpl();
+		((JdbcDaoSupport) it).setDataSource(dataSource);
 	}
 
 	@Test
@@ -88,5 +86,4 @@ public class UserDaoTest {
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(user1)));
 
 	}
-
 }

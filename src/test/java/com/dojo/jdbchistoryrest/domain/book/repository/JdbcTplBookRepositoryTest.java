@@ -18,11 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @SpringBootTest
-public class BookRepositoryTest {
+public class JdbcTplBookRepositoryTest {
 
 	@Autowired
-	@Qualifier("namedPramJdbcTplBookRepository")
-	// @Qualifier("jdbcTplBookRepository")
+	@Qualifier("jdbcTplBookRepository")
 	IBookRepository it;
 
 	@Test

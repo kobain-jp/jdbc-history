@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.domain.user.dao;
+package com.dojo.jdbchistoryrest.domain.user.repository;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -8,29 +8,24 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@JdbcTest
-class UserjdbcDaoSpTest {
-
-	IUserDao it;
+@SpringBootTest
+public class NamedPramJdbcTplUserRepositoryTest {
 
 	@Autowired
-	DataSource dataSource;
+	@Qualifier("namedPramJdbcTplUserRepository")
+	IUserReposiroty it;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		it = new UserJdbcDaoSpDs();
-		// it = new UserJdbcDaoSpJdbcTpl();
-		((JdbcDaoSupport) it).setDataSource(dataSource);
+	@Test
+	public void testDelete() {
+		assertThat(it.delete(2), is(1));
+		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
 
 	@Test
@@ -60,12 +55,6 @@ class UserjdbcDaoSpTest {
 	}
 
 	@Test
-	public void testDelete() {
-		assertThat(it.delete(2), is(1));
-		assertThat(it.findById(2).orElse(null), is(nullValue()));
-	}
-
-	@Test
 	public void testCreate() {
 		User user1 = new User();
 		user1.setUserId(3);
@@ -87,4 +76,5 @@ class UserjdbcDaoSpTest {
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(user1)));
 
 	}
+
 }

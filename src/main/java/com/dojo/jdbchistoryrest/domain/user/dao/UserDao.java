@@ -75,25 +75,185 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public Optional<User> findById(long id) {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driverClassName);
+			con = DriverManager.getConnection(url, userName, password);
+			ps = con.prepareStatement("select * from user where user_id = ?");
+			ps.setLong(1, id);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				User user = new User();
+				user.setUserId(rs.getLong("user_id"));
+				user.setUserName(rs.getString("user_name"));
+				user.setBirthDay(rs.getDate("birthday"));
+				
+				return Optional.of(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
 		return Optional.empty();
 	}
 
 	@Override
 	public int create(User user) {
-		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+			Class.forName(driverClassName);
+			con = DriverManager.getConnection(url, userName, password);
+			con.setAutoCommit(false);
+
+			ps = con.prepareStatement("insert into user (user_name,birthDay) values (?,?)");
+			ps.setString(1, user.getUserName());
+			ps.setDate(2, user.getBirthDay());
+			int createdCount = ps.executeUpdate();
+
+			con.commit();
+
+			return createdCount;
+
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public int update(long id, User user) {
-		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+			Class.forName(driverClassName);
+			con = DriverManager.getConnection(url, userName, password);
+			con.setAutoCommit(false);
+			ps = con.prepareStatement("update user set user_name=? ,birthday=? where user_id = ?");
+			ps.setString(1, user.getUserName());
+			ps.setDate(2, user.getBirthDay());
+			ps.setLong(3, user.getUserId());
+			int updatedCount = ps.executeUpdate();
+
+			con.commit();
+
+			return updatedCount;
+
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public int delete(long id) {
-		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+			Class.forName(driverClassName);
+			con = DriverManager.getConnection(url, userName, password);
+
+			con.setAutoCommit(false);
+
+			ps = con.prepareStatement("delete from user where user_id = ?");
+			ps.setLong(1, id);
+			int deletedCount = ps.executeUpdate();
+
+			con.commit();
+
+			return deletedCount;
+
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
 		return 0;
+
 	}
 
 }

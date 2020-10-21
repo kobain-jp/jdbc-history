@@ -10,30 +10,28 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@SpringBootTest
-public class BookDaoTest {
+@JdbcTest
+public class BookjdbcDaoSpDsTest {
 
-	BookDao it;
+	IBook it;
 
-	@Value("${spring.datasource.driver-class-name}")
-	String driverClassName;
-	@Value("${spring.datasource.url}")
-	String url;
-	@Value("${spring.datasource.username}")
-	String userName;
-	@Value("${spring.datasource.password}")
-	String password;
+	@Autowired
+	DataSource dataSource;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		it = new BookDao(this.driverClassName, this.url, this.userName, this.password);
+		it = new BookJdbcDaoSpDs();
+		((JdbcDaoSupport) it).setDataSource(dataSource);
 	}
 
 	@Test

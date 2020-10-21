@@ -34,9 +34,13 @@ public class BookDao implements IBook {
 		List<Book> bookList = new ArrayList<Book>();
 
 		try {
+			// Class をロード
 			Class.forName(driverClassName);
+			// DBサーバーとのConnectionを確立
 			con = DriverManager.getConnection(url, userName, password);
+			// 
 			ps = con.prepareStatement("select * from book");
+			// SQL実行
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
