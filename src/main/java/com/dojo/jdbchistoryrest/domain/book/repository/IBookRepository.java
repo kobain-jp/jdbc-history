@@ -3,8 +3,11 @@ package com.dojo.jdbchistoryrest.domain.book.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
+@Repository
 public interface IBookRepository {
 
 	public List<Book> findAll();

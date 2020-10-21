@@ -10,23 +10,37 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@SpringBootTest
+@JdbcTest
+@Transactional
 public class NamedParamJdbcTplBookRepositoryTest {
 
 	@Autowired
-	@Qualifier("namedPramJdbcTplBookRepository")
+	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
 	IBookRepository it;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new NamedParamJdbcTplBookRepository(namedParameterJdbcTemplate);
+	}
 
 	@Test
 	public void testCount() {
-		assertThat(it.count(), is(3));
+		assertThat(it.count(), is(JdbcTestUtils.countRowsInTable(jdbcTemplate, "Book")));
 	}
 
 	@Test
@@ -103,27 +117,34 @@ public class NamedParamJdbcTplBookRepositoryTest {
 	@Test
 	public void testCreate() {
 		Book book = new Book();
-		book.setBookId(4);
+		book.setBookId(0);
 		book.setTitle("SLAM DUNK 3");
 		book.setIsbn(9784088716138L);
 		book.setAuthor("井上雄彦");
 		book.setReleaseDate(Date.valueOf("1991-07-10"));
 
+		int beforeCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "book");
+
 		assertThat(it.insert(book), is(1));
-		assertThat(it.findById(4).orElse(null), is(samePropertyValuesAs(book)));
+
+		int generatedId = jdbcTemplate.queryForObject("Select max(book_id) from book", Integer.class);
+		book.setBookId(generatedId);
+
+		assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, "book"), is(beforeCount + 1));
+		assertThat(it.findById(generatedId).orElse(null), is(samePropertyValuesAs(book)));
 
 	}
 
 	@Test
 	public void testUpdate() {
 		Book book = new Book();
-		book.setBookId(1);
+		book.setBookId(2);
 		book.setTitle("スラムダンク 1");
 		book.setIsbn(9784088716138L);
 		book.setAuthor("いのうえたけひこ");
 		book.setReleaseDate(Date.valueOf("1991-07-11"));
 		assertThat(it.update(book), is(1));
-		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(book)));
+		assertThat(it.findById(2).orElse(null), is(samePropertyValuesAs(book)));
 	}
 
 	@Test
@@ -156,7 +177,7 @@ public class NamedParamJdbcTplBookRepositoryTest {
 		book.setReleaseDate(Date.valueOf("1991-07-10"));
 
 		Book actual = it.save(book);
-		book.setBookId(4);
+		book.setBookId(actual.getBookId());
 		assertThat(actual, is(samePropertyValuesAs(book)));
 
 	}

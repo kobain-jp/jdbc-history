@@ -15,10 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
 @JdbcTest
+@Transactional
 public class UserJdbcDaoSpSqlObjTest {
 
 	IUserDao it;

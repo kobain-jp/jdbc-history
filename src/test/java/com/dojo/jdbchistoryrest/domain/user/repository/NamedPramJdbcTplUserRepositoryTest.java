@@ -8,19 +8,33 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.user.entity.User;
 
-@SpringBootTest
+@JdbcTest
+@Transactional
 public class NamedPramJdbcTplUserRepositoryTest {
 
-	@Autowired
-	@Qualifier("namedPramJdbcTplUserRepository")
 	IUserReposiroty it;
+
+	@Autowired
+	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		it = new NamedPramJdbcTplUserRepository(namedParameterJdbcTemplate);
+	}
 
 	@Test
 	public void testDelete() {
@@ -61,8 +75,15 @@ public class NamedPramJdbcTplUserRepositoryTest {
 		user1.setUserName("user3");
 		user1.setBirthDay(Date.valueOf("2003-03-03"));
 
+		int beforeCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "user");
+
 		assertThat(it.create(user1), is(1));
-		assertThat(it.findById(3).orElse(null), is(samePropertyValuesAs(user1)));
+
+		int generatedId = jdbcTemplate.queryForObject("Select max(user_id) from user", Integer.class);
+		user1.setUserId(generatedId);
+
+		assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, "user"), is(beforeCount + 1));
+		assertThat(it.findById(generatedId).orElse(null), is(samePropertyValuesAs(user1)));
 
 	}
 

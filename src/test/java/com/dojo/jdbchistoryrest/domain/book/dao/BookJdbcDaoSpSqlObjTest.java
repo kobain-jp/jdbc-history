@@ -15,18 +15,22 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
-@JdbcTest
+@SpringBootTest
 public class BookJdbcDaoSpSqlObjTest {
 
 	IBook it;
 
 	@Autowired
 	DataSource dataSource;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -36,7 +40,7 @@ public class BookJdbcDaoSpSqlObjTest {
 
 	@Test
 	public void testCount() {
-		assertThat(it.count(), is(3));
+		assertThat(it.count(), is(JdbcTestUtils.countRowsInTable(jdbcTemplate, "Book")));
 	}
 
 	@Test
@@ -119,8 +123,15 @@ public class BookJdbcDaoSpSqlObjTest {
 		book.setAuthor("井上雄彦");
 		book.setReleaseDate(Date.valueOf("1991-07-10"));
 
+		int beforeCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "book");
+
 		assertThat(it.insert(book), is(1));
-		assertThat(it.findById(4).orElse(null), is(samePropertyValuesAs(book)));
+
+		int generatedId = jdbcTemplate.queryForObject("Select max(book_id) from book", Integer.class);
+		book.setBookId(generatedId);
+
+		assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, "book"), is(beforeCount + 1));
+		assertThat(it.findById(generatedId).orElse(null), is(samePropertyValuesAs(book)));
 
 	}
 
@@ -141,5 +152,4 @@ public class BookJdbcDaoSpSqlObjTest {
 		assertThat(it.deleteById(2), is(1));
 		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
-
 }
