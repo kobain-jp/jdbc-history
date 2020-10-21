@@ -21,7 +21,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
 @JdbcTest
-public class BookjdbcDaoSpDsTest {
+public class BookJdbcDaoSpJdbcTplTest {
 
 	IBook it;
 
@@ -30,7 +30,7 @@ public class BookjdbcDaoSpDsTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		it = new BookJdbcDaoSpDs();
+		it = new BookJdbcDaoSpJdbcTpl();
 		((JdbcDaoSupport) it).setDataSource(dataSource);
 	}
 
