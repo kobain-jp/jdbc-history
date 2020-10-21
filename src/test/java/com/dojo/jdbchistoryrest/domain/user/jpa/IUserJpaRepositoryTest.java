@@ -1,10 +1,5 @@
 package com.dojo.jdbchistoryrest.domain.user.jpa;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.Assert.assertThat;
-
 import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
