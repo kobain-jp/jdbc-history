@@ -92,7 +92,7 @@ open http://localhost:8080/swagger-ui/
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookDaoTest.java
 ```
 
-### 実装稽古2-1. JdbcDaoSupportを継承してDAOを実装しよう（DataSouceを利用したもの）
+### 実装稽古2. JdbcDaoSupportを継承してDAOを実装しよう（DataSouceを利用したもの）
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpDs.java
@@ -102,7 +102,7 @@ open http://localhost:8080/swagger-ui/
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsest.java
 ```
 
-### 実装稽古2-2. JdbcDaoSupportを継承してDAOを実装しよう（DataSouce＋SQLMappingQuery,SQLUpdateを利用したもの）
+### 実装稽古3. JdbcDaoSupportを継承してDAOを実装しよう（DataSouce＋SQLMappingQuery,SQLUpdateを利用したもの）
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpSqlObj.java
@@ -132,7 +132,7 @@ open http://localhost:8080/swagger-ui/
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepositoryTest.java
 ```
 
-### 実装稽古5. Jpaを実装しよう
+### 実装稽古6. Jpaを実装しよう
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.jpa.IUserJpaRepository.java
