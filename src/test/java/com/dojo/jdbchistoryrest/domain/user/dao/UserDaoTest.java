@@ -74,14 +74,14 @@ class UserDaoTest {
 		user1.setBirthDay(Date.valueOf("2003-03-03"));
 
 		assertThat(it.create(user1), is(1));
-		assertThat(it.findById(4).orElse(null), is(samePropertyValuesAs(user1)));
+		assertThat(it.findById(3).orElse(null), is(samePropertyValuesAs(user1)));
 
 	}
 
 	@Test
 	public void testUpdate() {
 		User user1 = new User();
-		user1.setUserId(3);
+		user1.setUserId(1);
 		user1.setUserName("user11");
 		user1.setBirthDay(Date.valueOf("2000-01-01"));
 		assertThat(it.update(1, user1), is(1));
