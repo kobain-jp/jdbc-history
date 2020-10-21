@@ -75,9 +75,12 @@ open http://localhost:8080/swagger-ui/
 
 ### 実装稽古の流れ
 
-1. 参考クラスを参照する
+1. 参考クラス、参考クラスのテストを参照する
 2. テストクラスを実行
 3. 実装クラスを実装し、赤を緑へ
+
+難易度の順
+`select -> delete -> insert -> update1`
 
 ### 実装稽古1. DriverManagerのDaoを実装しよう
 
