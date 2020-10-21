@@ -23,13 +23,13 @@ public class BookUpdateQuery extends SqlUpdate {
 		compile();
 	}
 
-	public int update(long id, Book book) {
+	public int update(Book book) {
 		Object[] params = new Object[5];
 		params[0] = book.getIsbn();
 		params[1] = book.getTitle();
 		params[2] = book.getAuthor();
 		params[3] = book.getReleaseDate();
-		params[4] = id;
+		params[4] = book.getBookId();
 		return super.update(params);
 	}
 

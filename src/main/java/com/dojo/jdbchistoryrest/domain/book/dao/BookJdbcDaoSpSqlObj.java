@@ -44,17 +44,17 @@ public class BookJdbcDaoSpSqlObj extends JdbcDaoSupport implements IBook {
 	}
 
 	@Override
-	public int create(Book book) {
+	public int insert(Book book) {
 		return new BookInsertQuery(getDataSource()).update(book);
 	}
 
 	@Override
-	public int update(long id, Book book) {
-		return new BookUpdateQuery(getDataSource()).update(id, book);
+	public int update(Book book) {
+		return new BookUpdateQuery(getDataSource()).update(book);
 	}
 
 	@Override
-	public int delete(long id) {
+	public int deleteById(long id) {
 		return new BookDeleteQuery(getDataSource()).update(id);
 
 	}

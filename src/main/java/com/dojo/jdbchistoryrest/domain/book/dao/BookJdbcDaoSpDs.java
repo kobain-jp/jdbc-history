@@ -129,7 +129,7 @@ public class BookJdbcDaoSpDs extends JdbcDaoSupport implements IBook {
 	}
 
 	@Override
-	public int create(Book book) {
+	public int insert(Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
 
@@ -163,7 +163,7 @@ public class BookJdbcDaoSpDs extends JdbcDaoSupport implements IBook {
 	}
 
 	@Override
-	public int update(long id, Book book) {
+	public int update(Book book) {
 		Connection con = null;
 		PreparedStatement ps = null;
 
@@ -199,7 +199,7 @@ public class BookJdbcDaoSpDs extends JdbcDaoSupport implements IBook {
 	}
 
 	@Override
-	public int delete(long id) {
+	public int deleteById(long id) {
 		Connection con = null;
 		PreparedStatement ps = null;
 

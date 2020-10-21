@@ -109,7 +109,7 @@ public class NamedParamJdbcTplBookRepositoryTest {
 		book.setAuthor("井上雄彦");
 		book.setReleaseDate(Date.valueOf("1991-07-10"));
 
-		assertThat(it.create(book), is(1));
+		assertThat(it.insert(book), is(1));
 		assertThat(it.findById(4).orElse(null), is(samePropertyValuesAs(book)));
 
 	}
@@ -122,13 +122,48 @@ public class NamedParamJdbcTplBookRepositoryTest {
 		book.setIsbn(9784088716138L);
 		book.setAuthor("いのうえたけひこ");
 		book.setReleaseDate(Date.valueOf("1991-07-11"));
-		assertThat(it.update(1, book), is(1));
+		assertThat(it.update(book), is(1));
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(book)));
 	}
 
 	@Test
 	public void testDelete() {
-		assertThat(it.delete(2), is(1));
+		assertThat(it.deleteById(2), is(1));
 		assertThat(it.findById(2).orElse(null), is(nullValue()));
+	}
+
+	@Test
+	public void testSave_IFExists() {
+		Book book = new Book();
+		book.setBookId(1);
+		book.setTitle("SLAM DUNK 3");
+		book.setIsbn(9784088716138L);
+		book.setAuthor("井上雄彦");
+		book.setReleaseDate(Date.valueOf("1991-07-10"));
+
+		assertThat(it.save(book), is(samePropertyValuesAs(book)));
+		assertThat(it.findById(1L).orElse(null), is(samePropertyValuesAs(book)));
+
+	}
+
+	@Test
+	public void testSave_IfIdIsZero() {
+		Book book = new Book();
+		book.setBookId(0);
+		book.setTitle("SLAM DUNK 3");
+		book.setIsbn(9784088716138L);
+		book.setAuthor("井上雄彦");
+		book.setReleaseDate(Date.valueOf("1991-07-10"));
+
+		Book actual = it.save(book);
+		book.setBookId(4);
+		assertThat(actual, is(samePropertyValuesAs(book)));
+
+	}
+
+	@Test
+	public void testExistsBy() {
+		assertThat(it.existsById(1), is(true));
+		assertThat(it.existsById(0), is(false));
 	}
 }

@@ -15,10 +15,16 @@ public interface IBookRepository {
 
 	public int count();
 
-	public int create(Book book);
+	public int insert(Book book);
 
-	public int update(long id, Book book);
+	public int update(Book book);
 
-	public int delete(long id);
+	public int deleteById(long id);
+		
+	public Book save(Book book);
+
+	boolean existsById(long id);
+
+	public int insertGetId(Book book);
 
 }

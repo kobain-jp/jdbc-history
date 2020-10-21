@@ -8,8 +8,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
@@ -17,12 +17,11 @@ import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 public class NamedParamJdbcTplBookRepository implements IBookRepository {
 
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	public NamedParamJdbcTplBookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate =jdbcTemplate;
+		this.jdbcTemplate = jdbcTemplate;
 	}
-	
 
 	@Override
 	public List<Book> findAll() {
@@ -66,8 +65,7 @@ public class NamedParamJdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int create(Book book) {
+	public int insert(Book book) {
 
 		SqlParameterSource params = new MapSqlParameterSource().addValue("author", book.getAuthor())
 				.addValue("isbn", book.getIsbn()).addValue("title", book.getTitle())
@@ -80,8 +78,7 @@ public class NamedParamJdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int update(long id, Book book) {
+	public int update(Book book) {
 
 		SqlParameterSource params = new MapSqlParameterSource().addValue("author", book.getAuthor())
 				.addValue("isbn", book.getIsbn()).addValue("title", book.getTitle())
@@ -93,11 +90,46 @@ public class NamedParamJdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int delete(long id) {
-		
+	public int deleteById(long id) {
+
 		SqlParameterSource params = new MapSqlParameterSource().addValue("book_id", Long.valueOf(id));
 		return jdbcTemplate.update("delete from book where book_id = :book_id", params);
+
+	}
+
+	@Override
+	public Book save(Book book) {
+		
+		long bookId = book.getBookId();
+		
+		if (book.getBookId() == 0 || !existsById(book.getBookId())) {
+			bookId = insertGetId(book);
+		} else {
+			update(book);
+		}
+		return this.findById(bookId).get();
+	}
+
+	@Override
+	public boolean existsById(long id) {
+		
+		return this.findById((id)).isPresent();
+		
+	}
+
+	@Override
+	public int insertGetId(Book book) {
+		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+		SqlParameterSource params = new MapSqlParameterSource().addValue("author", book.getAuthor())
+				.addValue("isbn", book.getIsbn()).addValue("title", book.getTitle())
+				.addValue("release_date", book.getReleaseDate());
+
+		jdbcTemplate.update(
+				"insert into book (isbn,title,author,release_date) values (:isbn,:title,:author,:release_date)", params,
+				keyHolder);
+
+		return (int) keyHolder.getKey();
 
 	}
 }

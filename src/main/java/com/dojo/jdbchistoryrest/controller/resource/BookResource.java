@@ -1,4 +1,4 @@
-package com.dojo.jdbchistoryrest.controller;
+package com.dojo.jdbchistoryrest.controller.resource;
 
 import java.util.List;
 
@@ -38,18 +38,19 @@ public class BookResource {
 	}
 
 	@PostMapping("/book")
-	public void create(@RequestBody Book book) {
-		bookRepository.create(book);
+	public Book create(@RequestBody Book book) {
+		return bookRepository.save(book);
 	}
 
 	@PutMapping("/book/{id}")
-	public void update(@PathVariable String id, @RequestBody Book book) {
-		bookRepository.update(Long.valueOf(id), book);
+	public Book update(@PathVariable String id, @RequestBody Book book) {
+		book.setBookId(Long.valueOf(id));
+		return bookRepository.save(book);
 	}
 
 	@DeleteMapping("/book/{id}")
 	public void delete(@PathVariable String id) {
-		bookRepository.delete(Long.valueOf(id));
+		bookRepository.deleteById(Long.valueOf(id));
 	}
 
 }

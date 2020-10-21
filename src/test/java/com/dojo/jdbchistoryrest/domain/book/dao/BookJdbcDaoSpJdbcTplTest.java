@@ -111,7 +111,7 @@ public class BookJdbcDaoSpJdbcTplTest {
 	}
 
 	@Test
-	public void testCreate() {
+	public void testInsert() {
 		Book book = new Book();
 		book.setBookId(4);
 		book.setTitle("SLAM DUNK 3");
@@ -119,7 +119,7 @@ public class BookJdbcDaoSpJdbcTplTest {
 		book.setAuthor("井上雄彦");
 		book.setReleaseDate(Date.valueOf("1991-07-10"));
 
-		assertThat(it.create(book), is(1));
+		assertThat(it.insert(book), is(1));
 		assertThat(it.findById(4).orElse(null), is(samePropertyValuesAs(book)));
 
 	}
@@ -132,13 +132,13 @@ public class BookJdbcDaoSpJdbcTplTest {
 		book.setIsbn(9784088716138L);
 		book.setAuthor("いのうえたけひこ");
 		book.setReleaseDate(Date.valueOf("1991-07-11"));
-		assertThat(it.update(1, book), is(1));
+		assertThat(it.update(book), is(1));
 		assertThat(it.findById(1).orElse(null), is(samePropertyValuesAs(book)));
 	}
 
 	@Test
 	public void testDelete() {
-		assertThat(it.delete(2), is(1));
+		assertThat(it.deleteById(2), is(1));
 		assertThat(it.findById(2).orElse(null), is(nullValue()));
 	}
 

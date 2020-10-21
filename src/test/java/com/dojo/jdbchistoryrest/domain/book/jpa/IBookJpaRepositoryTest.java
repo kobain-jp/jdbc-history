@@ -24,7 +24,7 @@ class IBookJpaRepositoryTest {
 
 	@Test
 	public void testFindAll() {
-
+	
 		List<Book> bookList = new ArrayList<Book>();
 		Book book1 = new Book();
 		book1.setBookId(1);

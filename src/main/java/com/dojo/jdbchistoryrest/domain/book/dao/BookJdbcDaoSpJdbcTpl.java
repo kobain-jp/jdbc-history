@@ -74,7 +74,7 @@ public class BookJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IBook {
 
 	@Override
 	@Transactional
-	public int create(Book book) {
+	public int insert(Book book) {
 
 		return getJdbcTemplate().update("insert into book (isbn,title,author,release_date) values (?,?,?,?)",
 				new Object[] { book.getIsbn(), book.getTitle(), book.getAuthor(), book.getReleaseDate() });
@@ -83,7 +83,7 @@ public class BookJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IBook {
 
 	@Override
 	@Transactional
-	public int update(long id, Book book) {
+	public int update(Book book) {
 
 		return getJdbcTemplate().update("update book set isbn=? ,title=? ,author=? ,release_date=? where book_id = ?",
 				new Object[] { book.getIsbn(), book.getTitle(), book.getAuthor(), book.getReleaseDate(),
@@ -93,7 +93,7 @@ public class BookJdbcDaoSpJdbcTpl extends JdbcDaoSupport implements IBook {
 
 	@Override
 	@Transactional
-	public int delete(long id) {
+	public int deleteById(long id) {
 
 		return getJdbcTemplate().update("delete from book where book_id = ?", new Object[] { Long.valueOf(id) });
 

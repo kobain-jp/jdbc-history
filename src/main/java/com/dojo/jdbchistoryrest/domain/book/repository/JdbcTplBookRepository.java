@@ -1,13 +1,15 @@
 package com.dojo.jdbchistoryrest.domain.book.repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistoryrest.domain.book.entity.Book;
 
@@ -58,8 +60,7 @@ public class JdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int create(Book book) {
+	public int insert(Book book) {
 
 		return jdbcTemplate.update("insert into book (isbn,title,author,release_date) values (?,?,?,?)",
 				new Object[] { book.getIsbn(), book.getTitle(), book.getAuthor(), book.getReleaseDate() });
@@ -67,8 +68,7 @@ public class JdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int update(long id, Book book) {
+	public int update(Book book) {
 
 		return jdbcTemplate.update("update book set isbn=? ,title=? ,author=? ,release_date=? where book_id = ?",
 				new Object[] { book.getIsbn(), book.getTitle(), book.getAuthor(), book.getReleaseDate(),
@@ -77,10 +77,48 @@ public class JdbcTplBookRepository implements IBookRepository {
 	}
 
 	@Override
-	@Transactional
-	public int delete(long id) {
+	public int deleteById(long id) {
 
 		return jdbcTemplate.update("delete from book where book_id = ?", new Object[] { Long.valueOf(id) });
+
+	}
+
+	@Override
+	public Book save(Book book) {
+
+		long bookId = book.getBookId();
+
+		if (book.getBookId() == 0 || !existsById(book.getBookId())) {
+			bookId = insertGetId(book);
+		} else {
+			update(book);
+		}
+		return this.findById(bookId).get();
+	}
+
+	@Override
+	public int insertGetId(Book book) {
+
+		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(con -> {
+			PreparedStatement ps = con.prepareStatement(
+					"insert into book (isbn,title,author,release_date) values (?,?,?,?)",
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setLong(1, book.getIsbn());
+			ps.setString(2, book.getTitle());
+			ps.setString(3, book.getAuthor());
+			ps.setDate(4, book.getReleaseDate());
+			return ps;
+		}, keyHolder);
+
+		return (int) keyHolder.getKey();
+	}
+
+	@Override
+	public boolean existsById(long id) {
+
+		return this.findById((id)).isPresent();
 
 	}
 
