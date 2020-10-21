@@ -99,30 +99,27 @@ open http://localhost:8080/swagger-ui/
 テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java
 
 参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsDao.java
-参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java
+参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsest.java
 ```
 
 ### 実装稽古3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java
-テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpTest.java
-*setUpメソッドを一部修正して、itに代入される変数をUserJdbcDaoSpJdbcTplのインスタンスに変更
+テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTplTest.java
 
 参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpJdbcTplDao.java
-参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpTest.java
-*setUpメソッドを一部修正して、itに代入される変数をBookJdbcDaoSpJdbcTplのインスタンスに変更
+参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpJdbcTplDaoTest.java
 ```
 
 ### 実装稽古4. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.repository.NamedPramJdbcTplUserRepository.java`
-テストクラス：com.dojo.jdbchistoryrest.domain.user.repository.UserReposirotyTest.java`
-*setUpメソッドを一部修正
+テストクラス：com.dojo.jdbchistoryrest.domain.user.repository.NamedPramJdbcTplUserRepositoryTest.java`
 
 参考クラス：com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepository.java
-参考テストクラス：com.dojo.jdbchistoryrest.domain.book.repository.BookRepositoryTest.java
+参考テストクラス：com.dojo.jdbchistoryrest.domain.book.repository.NamedPramJdbcTplBookRepositoryTest.java
 ```
 
 ### 実装稽古5. Jpaを実装しよう
