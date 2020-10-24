@@ -18,15 +18,20 @@ public class IndexController {
 		this.bookRepository = bookRepository;
 	}
 
-	@GetMapping("book-vue")
-	public String indexVue() {
-		return "/book/index-vue";
-	}
-
 	@GetMapping("book-thymeleaf")
 	public String indexThymeleaf(Model model) {
 		model.addAttribute("bookList", bookRepository.findAll());
 		return "/book/index-thymeleaf";
+	}
+	
+	@GetMapping("book-vue")
+	public String indexVue() {
+		return "/book/index-vue";
+	}
+	
+	@GetMapping("book-react")
+	public String indexReact() {
+		return "/book/index-react";
 	}
 
 }
