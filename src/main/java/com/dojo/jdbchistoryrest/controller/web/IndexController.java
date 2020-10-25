@@ -33,5 +33,10 @@ public class IndexController {
 	public String indexReact() {
 		return "/book/index-react";
 	}
+	
+	@GetMapping("book-vanillajs")
+	public String indexVanillaJs() {
+		return "/book/index-vanillajs";
+	}
 
 }

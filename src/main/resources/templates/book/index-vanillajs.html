@@ -1,0 +1,31 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<title>book management</title>
+</head>
+<body class="container-fluid">
+	<div id="app">
+		<h1>Book Management</h1>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>isbn</th>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Release Date</th>
+				</tr>
+			</thead>
+			<tbody id="table-body">
+			</tbody>
+		</table>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/book/vanillajs/app.js}"></script>
+</body>
+</html>
