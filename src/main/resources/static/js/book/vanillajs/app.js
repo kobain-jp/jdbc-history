@@ -1,8 +1,10 @@
 (function () {
 
+    'use strict';
+
     function Model() {
         let self = this;
-        this.book;
+        let books = [];
 
         // observer pattern
         this.observers = [];
