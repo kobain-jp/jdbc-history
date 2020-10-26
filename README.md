@@ -102,17 +102,7 @@ open http://localhost:8080/swagger-ui/
 参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpDsest.java
 ```
 
-### 実装稽古3. JdbcDaoSupportを継承してDAOを実装しよう（DataSouce＋SQLMappingQuery,SQLUpdateを利用したもの）
-
-```
-実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpSqlObj.java
-テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpSqlObjTest.java
-
-参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpSqlObjDao.java
-参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpSqlObjest.java
-```
-
-### 実装稽古4. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
+### 実装稽古3. JdbcDaoSupportを継承してDAOを実装しよう（jdbcTemplateを利用したもの）
 
 ```
 実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpJdbcTpl.java
@@ -120,6 +110,16 @@ open http://localhost:8080/swagger-ui/
 
 参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpJdbcTplDao.java
 参考テストクラス：`com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpJdbcTplDaoTest.java
+```
+
+### 実装稽古4. JdbcDaoSupportを継承してDAOを実装しよう（DataSouce＋SQLMappingQuery,SQLUpdateを利用したもの）
+
+```
+実装クラス:com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpSqlObj.java
+テストクラス：com.dojo.jdbchistoryrest.domain.user.dao.UserJdbcDaoSpSqlObjTest.java
+
+参考クラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpSqlObjDao.java
+参考テストクラス：com.dojo.jdbchistoryrest.domain.book.dao.BookJdbcDaoSpSqlObjest.java
 ```
 
 ### 実装稽古5. NamedParameterJdbcTemplateを利用したRepositoryを実装しよう
