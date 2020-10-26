@@ -1,0 +1,51 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>book management</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="container-fluid">
+	<h1 th:text="${title}"></h1>
+	<h4 th:classappend="${classHeaderMessage}"
+		th:text="${captionHeaderMessage}"></h4>
+	<form role="form"
+		th:action="@{/book-thymeleaf/form/{act}(act=${action})}" method="post"
+		th:object="${book}">
+		<input type="hidden" name="bookId" th:value="*{bookId}">
+		<div class="form-group">
+			<label for="isbn">isbn</label> <input type="number"
+				th:readonly="${readonly}" class="form-control" id="isbn"
+				placeholder="enter isbn"
+				name="isbn" th:value="*{isbn}">
+		</div>
+		<div class="form-group">
+			<label for="title">title</label> <input th:readonly="${readonly}"
+				class="form-control" id="title" placeholder="enter title"
+				name="title" th:value="*{title}">
+		</div>
+		<div class="form-group">
+			<label for="isbn">author</label> <input th:readonly="${readonly}"
+				class="form-control" id="isbn" placeholder="enter author"
+				name="author" th:value="*{author}">
+		</div>
+		<div class="form-group">
+			<label for="release-date">release date</label> <input
+				th:readonly="${readonly}" type="date" class="form-control" id="release-date"
+				placeholder="enter release date"
+				name="releaseDate" th:value="*{releaseDate}">
+		</div>
+		<a class="btn btn-light" href="/book-thymeleaf" role="button">back
+			to index</a>
+		<button th:classappend="${classSubmitBtn}" type="submit"
+			th:text="${captionSubmitBtn}"></button>
+	</form>
+
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

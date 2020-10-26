@@ -6,10 +6,25 @@
 <title>book management</title>
 <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="container-fluid">
 	<h1>Book List</h1>
-	<div th:if="${bookList.size()}==0" class="alert alert-danger">データがありません</div>
+	<a style="margin-bottom:10px" class="btn btn-primary" href="/book-thymeleaf/new" role="button">new Book</a>
+	<form role="form" th:action="@{/book-thymeleaf/search-by-title}"
+		method="post">
+		<div class="input-group ">
+			<input type="text" class="form-control" name="searchValue"
+				th:value="${searchValue}" placeholder="search by title" />
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="submit">
+					<i class="fa fa-search"></i>
+				</button>
+			</div>
+		</div>
+	</form>
+	<div style="margin-top:10px" th:if="${bookList.size()}==0" class="alert alert-primary">データがありません</div>
 	<table th:if="${bookList.size()}>0"
 		class="table table-striped table-hover">
 		<thead>
@@ -18,6 +33,7 @@
 				<th scope="col">title</th>
 				<th scope="col">author</th>
 				<th scope="col">release date</th>
+				<th scope="col">action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,6 +42,10 @@
 				<td th:text="${book.title}"></td>
 				<td th:text="${book.author}"></td>
 				<td th:text="${book.releaseDate}"></td>
+				<td><a th:href="@{/book-thymeleaf/edit/{id}(id=${book.bookId})}"><i
+						class="fa fa-edit text-secondary"></i></a> <a
+					th:href="@{/book-thymeleaf/delete/{id}(id=${book.bookId})}"><i
+						class="fa fa-trash text-danger"></i></a></td>
 			</tr>
 		</tbody>
 	</table>
