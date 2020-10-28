@@ -89,23 +89,23 @@ public class EmployeeIndexController {
 	EmployeeRepository repository;
 
 	@Autowired
-	public EmployeeIndexController(EmployeeRepository repository) {
-		this.repository = repository;
-	}
++	public EmployeeIndexController(EmployeeRepository repository) {
++		this.repository = repository;
++	}
 
 	@GetMapping("/employee")
 	public String index(Model model) {
 
-		List<Employee> employeeList = new ArrayList<Employee>();
++		List<Employee> employeeList = new ArrayList<Employee>();
 
-		Employee employee = new Employee();
-		employee.setId(1);
-		employee.setEmpNo("1");
-		employee.setEmpNm("kobayashi_yo");
++		Employee employee = new Employee();
++		employee.setId(1);
++		employee.setEmpNo("1");
++		employee.setEmpNm("kobayashi_yo");
 
-		employeeList.add(employee);
++		employeeList.add(employee);
 
-		model.addAttribute("employeeList", employeeList);
++		model.addAttribute("employeeList", employeeList);
 
 		return "/employee/index";
 	}
@@ -124,20 +124,20 @@ src/main/resources/templates/employee/index.htmlを編集
 </head>
 <body>
 	<h1>Hello World</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>emp no</th>
-				<th>emp nm</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="employee : ${employeeList}">
-				<td th:text="${employee.empNo}"></td>
-				<td th:text="${employee.empNm}"></td>
-			</tr>
-		</tbody>
-	</table>
++	<table class="table">
++		<thead>
++			<tr>
++				<th>emp no</th>
++				<th>emp nm</th>
++			</tr>
++		</thead>
++		<tbody>
++			<tr th:each="employee : ${employeeList}">
++				<td th:text="${employee.empNo}"></td>
++				<td th:text="${employee.empNm}"></td>
++			</tr>
++		</tbody>
++	</table>
 </body>
 </html>
 ```
@@ -173,7 +173,7 @@ public class EmployeeRepository {
 }
 ```
 
-com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.java
+com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaを編集
 
 
 ```
@@ -189,25 +189,25 @@ import com.dojo.jdbchistoryrest.domain.employee.EmployeeRepository;
 @Controller
 public class EmployeeIndexController {
 
-	EmployeeRepository repository;
++	EmployeeRepository repository;
 
-	@Autowired
-	public EmployeeIndexController(EmployeeRepository repository) {
-		this.repository = repository;
-	}
++	@Autowired
++	public EmployeeIndexController(EmployeeRepository repository) {
++		this.repository = repository;
++	}
 
-	@GetMapping("/employee")
-	public String index(Model model) {
++	@GetMapping("/employee")
++	public String index(Model model) {
 
-		model.addAttribute("employeeList", repository.findAll());
-
-		return "/employee/index";
-	}
++		model.addAttribute("employeeList", repository.findAll());
++		return "/employee/index";
++	}
 
 }
 ```
 
-２行でたらOk
+Autowiredは基本コンストラクタインジェクションにしょう
+DBから読み込んで２行でたらOk
 
 ### BootStrapをいれよう
 
@@ -221,22 +221,23 @@ build.gradle
 
 build.gradle > Gradle >reflesh Gradle Project
 
+src/main/resources/templates/employee/index.htmlを編集
 ```
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Employee List</title>
-<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
++<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet" />
 </head>
-<body class="container-fluid">
++<body class="container-fluid">
 	<h1>Employee List</h1>
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th scope="col">emp no</th>
-				<th scope="col">emp nm</th>
++				<th scope="col">emp no</th>
++				<th scope="col">emp nm</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -246,8 +247,8 @@ build.gradle > Gradle >reflesh Gradle Project
 			</tr>
 		</tbody>
 	</table>
-	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
++	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
++	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </body>
 </html>
 ```	
