@@ -124,6 +124,114 @@ src/main/resources/templates/employee/index.htmlを編集
 </head>
 <body>
 	<h1>Hello World</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>emp no</th>
+				<th>emp nm</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="employee : ${employeeList}">
+				<td th:text="${employee.empNo}"></td>
+				<td th:text="${employee.empNm}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+```
+
+### お得意のjdbcでDBからロードしよう
+
+com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaを作成
+
+```
+package com.dojo.jdbchistoryrest.domain.employee;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmployeeRepository {
+
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	public EmployeeRepository(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	public List<Employee> findAll() {
+		return jdbcTemplate.query("select * from Employee", new BeanPropertyRowMapper<Employee>(Employee.class));
+	}
+
+}
+```
+
+com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.java
+
+
+```
+package com.dojo.jdbchistoryrest.controller.web.employee;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.dojo.jdbchistoryrest.domain.employee.EmployeeRepository;
+
+@Controller
+public class EmployeeIndexController {
+
+	EmployeeRepository repository;
+
+	@Autowired
+	public EmployeeIndexController(EmployeeRepository repository) {
+		this.repository = repository;
+	}
+
+	@GetMapping("/employee")
+	public String index(Model model) {
+
+		model.addAttribute("employeeList", repository.findAll());
+
+		return "/employee/index";
+	}
+
+}
+```
+
+２行でたらOk
+
+### BootStrapをいれよう
+
+build.gradle
+
+以下は既に入れています
+```
+	implementation 'org.webjars:webjars-locator:0.40'	
+	implementation 'org.webjars:bootstrap:4.5.0'
+```
+
+build.gradle > Gradle >reflesh Gradle Project
+
+```
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Employee List</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+</head>
+<body class="container-fluid">
+	<h1>Employee List</h1>
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -138,12 +246,38 @@ src/main/resources/templates/employee/index.htmlを編集
 			</tr>
 		</tbody>
 	</table>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </body>
 </html>
+```	
+
+bootstrapをいれるためにした事
+
+script/cssのインクルート
+
+```
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
 ```
 
-### お得意のDBからロードしよう
+```
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+```
+
+classの指定
+
+```
+<body class="container-fluid">
+```
+
+```
+<table class="table table-striped table-hover">
+```
+
+tableはいろいろと変えられるので、遊んでみて
+https://getbootstrap.jp/docs/4.2/content/tables/
 
 
-
-
+1回目はここまで
