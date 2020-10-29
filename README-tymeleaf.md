@@ -271,7 +271,10 @@ https://getbootstrap.jp/docs/4.5/about/overview/
 
 どう入れる？
 
-build.gradleを修正
+build.gradleを修正し、webjarを入れる
+
+webjarsはJavaScript や CSS などのフロントサイドのライブラリの依存関係を、 Maven （Gradle）で管理できるようにするもの
+※build.gradleに書けば他のjarファイルのように必要なフロントサイドのライブラリのファイルをバージョンを指定してダウンロードしてくれる便利なものです。
 
 以下は既に入れています
 ```
