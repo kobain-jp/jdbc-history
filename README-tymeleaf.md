@@ -83,14 +83,7 @@ import com.dojo.jdbchistoryrest.domain.employee.EmployeeRepository;
 
 @Controller
 public class EmployeeIndexController {
-
-	EmployeeRepository repository;
-
-	@Autowired
-+	public EmployeeIndexController(EmployeeRepository repository) {
-+		this.repository = repository;
-+	}
-
+;
 	@GetMapping("/employee")
 	public String index(Model model) {
 
