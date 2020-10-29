@@ -284,7 +284,7 @@ webjarsはJavaScript や CSS などのフロントサイドのライブラリの
 
 build.gradle > Gradle >reflesh Gradle Project
 
-src/main/resources/templates/employee/index.htmlを編集
+src/main/resources/templates/employee/index.htmlを編集し、webjarを通してダウンロードした静的ファイルをインクルードする
 ```
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
