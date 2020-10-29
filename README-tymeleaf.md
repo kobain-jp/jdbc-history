@@ -65,7 +65,7 @@ SpringBootを起動し、HelloWoldとでれば準備完了
 
 ### tableを表示しよう
 
-com.dojo.jdbchistoryrest.domain.employee.Employee.java
+com.dojo.jdbchistoryrest.domain.employee.Employee.javaを作成
 
 ```
 package com.dojo.jdbchistoryrest.domain.employee;
