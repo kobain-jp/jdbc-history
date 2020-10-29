@@ -76,7 +76,12 @@ src/main/resources/templates/employee/index.htmlを作成し、
 </html>
 ```
 
-SpringBootを起動し、HelloWoldとでれば準備完了
+com/dojo/jdbchistoryrest/JdbcHistoryRestApplication.javaを選択し、
+Run As JavaApplication
+
+http://localhost:8080/employee
+
+Hello WorldとでればOK
 
 ### tableを表示しよう
 
@@ -183,6 +188,10 @@ src/main/resources/templates/employee/index.htmlを編集
 </html>
 ```
 
+http://localhost:8080/employee
+
+１行でればOK
+
 ### お得意のjdbcでDBからロードしよう
 
 com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaを作成
@@ -248,7 +257,10 @@ public class EmployeeIndexController {
 ```
 
 Autowiredは基本コンストラクタインジェクションにしょう
-DBから読み込んで２行でたらOk
+
+http://localhost:8080/employee
+
+２行でればOK
 
 ### BootStrapをいれて画面をっぽくしよう
 
