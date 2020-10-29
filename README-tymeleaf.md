@@ -264,14 +264,14 @@ http://localhost:8080/employee
 
 ### BootStrapをいれて画面をっぽくしよう
 
-bootstrapはざっくりいうと、htmlにbootstrapのcssとjsするだけで、画面をきれいにしてくれるフレームワークです。
+bootstrapは何？
 
+ざっくりいうと、htmlにbootstrapのcssとjsするだけで、画面をきれいにしてくれるフレームワークです。
 https://getbootstrap.jp/docs/4.5/about/overview/
 
-webjarsはJavaScript や CSS などのフロントサイドのライブラリの依存関係を、 Maven （Gradle）で管理できるようにするものです。
-bootstrapを本家サイトからダウンロードして配置するのではなく、build.gradleに書けば他のjarファイルのように必要なファイルの必要なバージョンをダウンロードしてくれる便利なものです。
+どう入れる？
 
-build.gradle
+build.gradleを修正
 
 以下は既に入れています
 ```
@@ -279,7 +279,9 @@ build.gradle
 	implementation 'org.webjars:bootstrap:4.5.0'
 ```
 
-`implementation 'org.webjars:bootstrap:4.5.0'`でbootstrap関連のcss/jsファイルがダウンロードして、プロジェクトに追加されます。
+`implementation 'org.webjars:webjars-locator:0.40'`　webjarsで、JavaScript や CSS などのフロントサイドのライブラリの依存関係を、 Maven （Gradle）で管理できるようにするものです。
+`implementation 'org.webjars:bootstrap:4.5.0'`　bootstrapの静的ファイルを含んだjar
+
 
 build.gradle > Gradle >reflesh Gradle Project
 
