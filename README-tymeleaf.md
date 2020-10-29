@@ -192,7 +192,7 @@ http://localhost:8080/employee
 
 １行でればOK
 
-### お得意のjdbcでDBからロードしよう
+### jdbcでDBからデータをロードして表示しよう
 
 com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaを作成
 
@@ -278,10 +278,6 @@ build.gradleを修正
 	implementation 'org.webjars:webjars-locator:0.40'	
 	implementation 'org.webjars:bootstrap:4.5.0'
 ```
-
-`implementation 'org.webjars:webjars-locator:0.40'`　webjarsで、JavaScript や CSS などのフロントサイドのライブラリの依存関係を、 Maven （Gradle）で管理できるようにするものです。
-`implementation 'org.webjars:bootstrap:4.5.0'`　bootstrapの静的ファイルを含んだjar
-
 
 build.gradle > Gradle >reflesh Gradle Project
 
