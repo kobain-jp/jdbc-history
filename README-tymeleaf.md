@@ -250,7 +250,15 @@ public class EmployeeIndexController {
 Autowiredは基本コンストラクタインジェクションにしょう
 DBから読み込んで２行でたらOk
 
-### BootStrapをいれよう
+### BootStrapをいれて画面をっぽくしよう
+
+bootstrapとは？
+
+https://getbootstrap.jp/docs/4.2/getting-started/introduction/
+
+webjarsとは？
+
+https://www.codeflow.site/ja/article/maven-webjars
 
 build.gradle
 
