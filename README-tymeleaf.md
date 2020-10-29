@@ -1,5 +1,7 @@
 
 *pullとgradle refreshをまず実施してください
+*8081ポートなどを使いたい人はapplication.propertiesに以下を追記してください
+`server.port=8081`
 
 ### DBにテーブルとデータを作ろう
 
