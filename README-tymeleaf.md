@@ -83,7 +83,7 @@ import com.dojo.jdbchistoryrest.domain.employee.EmployeeRepository;
 
 @Controller
 public class EmployeeIndexController {
-;
+
 	@GetMapping("/employee")
 	public String index(Model model) {
 
