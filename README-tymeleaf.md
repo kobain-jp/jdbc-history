@@ -1,4 +1,6 @@
 
+*pullとgradle refreshをまず実施してください
+
 ### DBにテーブルとデータを作ろう
 
 /src/main/resources/schema.sql
@@ -18,6 +20,13 @@ INSERT INTO employee(emp_no, emp_nm) VALUES ('2','Yamamoto Jiro');
 起動して、以下のURLにアクセス
 
 http://localhost:8080/h2-console
+
+```
+Driver Class:org.h2.Driver
+JDBC URL:jdbc:h2:mem:demodb
+User Name:sa
+Password:
+```
 
 ### hellowoldを表示しよう
 
