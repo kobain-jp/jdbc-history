@@ -28,6 +28,8 @@ User Name:sa
 Password:
 ```
 
+click connect
+
 ### hellowoldを表示しよう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaを作成
