@@ -3,14 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <title>book management</title>
 </head>
 <body class="container-fluid">
 	<div id="app">
-		<h1>Book Management</h1>
-		<table class="table table-striped">
+		<h1>Book List</h1>
+		<a style="margin-bottom: 10px" class="btn btn-primary"
+			href="/book-thymeleaf/new" role="button">new Book</a>
+
+		<form v-on:submit.prevent="searchByTitle">
+			<div class="input-group ">
+				<input type="text" class="form-control" name="searchValue"
+					placeholder="search by title" ref="searchValue" />
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+		<div style="margin-top:10px" v-if="books.length===0" class="alert alert-primary">データがありません</div>
+		<table v-if="books.length > 0" class="table table-striped">
 			<thead>
 				<tr>
 					<th>isbn</th>

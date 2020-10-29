@@ -5,3 +5,6 @@ INSERT INTO book(title, isbn,  author, release_date) VALUES ('リアル 1',97840
 INSERT INTO user(user_name, birthday) VALUES ('user1','2001-01-01');
 INSERT INTO user(user_name, birthday) VALUES ('user2','2002-02-02');
 
+INSERT INTO employee(emp_no, emp_nm) VALUES ('1','Kobayashi Taro');
+INSERT INTO employee(emp_no, emp_nm) VALUES ('2','Yamamoto Jiro');
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Employee List</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+</head>
+<body class="container-fluid">
+	<h1>Employee List</h1>
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th scope="col">emp no</th>
+				<th scope="col">emp nm</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="employee : ${employeeList}">
+				<td th:text="${employee.empNo}"></td>
+				<td th:text="${employee.empNm}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

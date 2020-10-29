@@ -33,21 +33,31 @@
                 .then(response => self.books = response.data)
                 .catch(response => console.log(response))
         }
+
+        this.fetchByTitle = function (title) {
+            axios.get('/api/book-title', { params: { title: title } })
+                .then(response => this.books = response.data)
+                .catch(response => console.log(response));
+        }
     }
 
     function View() {
 
-        this.elemTblBody = document.getElementById('table-body');
+        this.elmInpSearch = document.getElementById('inp-search');
+        this.formSearch = document.getElementById('form-search');
+        this.elemTbodyBookList = document.getElementById('tbody-booklist');
 
         this.template = "<td>{{book.isbn}}</td><td>{{book.title}}</td><td>{{book.author}}</td><td>{{book.releaseDate}}</td>"
 
         this.renderTblBody = function (books) {
 
+            this.elemTbodyBookList.innerHTML = '';
+
             books.map(book => {
                 const elemTr = document.createElement("tr");
                 const compiled = this.template.replace('{{book.isbn}}', book.isbn).replace('{{book.title}}', book.title).replace('{{book.author}}', book.author).replace('{{book.releaseDate}}', book.releaseDate);
                 elemTr.innerHTML = compiled;
-                this.elemTblBody.appendChild(elemTr);
+                this.elemTbodyBookList.appendChild(elemTr);
             });
         }
 
@@ -58,17 +68,17 @@
     }
 
     function Controller(model, view) {
+        var self = this;
         this.model = model;
+        this.view = view;
         model.registerObserver(view);
 
         this.bindEvents = function () {
-
+            view.formSearch.addEventListener("submit", self.submitFormSearch);
         }
 
-        // call action by hash 
+        // call action by hash as Router
         this.dispatch = function (hash) {
-
-            console.log(hash);
 
         }
 
@@ -77,7 +87,15 @@
             this.model.fetch();
         }
 
+        // hashchange
+        this.submitFormSearch = function (event) {
+            event.preventDefault();
+            const title = self.view.elmInpSearch.value;
+            self.model.fetchByTitle(title);
+            return false;
+        }
 
+        this.bindEvents();
     }
 
     function App() {
