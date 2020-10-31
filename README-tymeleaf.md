@@ -192,7 +192,7 @@ http://localhost:8080/employee
 
 １行でればOK
 
-### お得意のjdbcでDBからロードしよう
+### jdbcでDBからデータをロードして表示しよう
 
 com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaを作成
 
@@ -264,15 +264,17 @@ http://localhost:8080/employee
 
 ### BootStrapをいれて画面をっぽくしよう
 
-bootstrapとは？
+bootstrapは何？
 
-https://getbootstrap.jp/docs/4.2/getting-started/introduction/
+ざっくりいうと、htmlにbootstrapのcssとjsするだけで、画面をきれいにしてくれるフレームワークです。
+https://getbootstrap.jp/docs/4.5/about/overview/
 
-webjarsとは？
+どう入れる？
 
-https://www.codeflow.site/ja/article/maven-webjars
+build.gradleを修正し、webjarを入れる
 
-build.gradle
+webjarsはJavaScript や CSS などのフロントサイドのライブラリの依存関係を、 Maven （Gradle）で管理できるようにするもの
+※build.gradleに書けば他のjarファイルのように必要なフロントサイドのライブラリのファイルをバージョンを指定してダウンロードしてくれる便利なものです。
 
 以下は既に入れています
 ```
@@ -282,7 +284,7 @@ build.gradle
 
 build.gradle > Gradle >reflesh Gradle Project
 
-src/main/resources/templates/employee/index.htmlを編集
+src/main/resources/templates/employee/index.htmlを編集し、webjarを通してダウンロードした静的ファイルをインクルードする
 ```
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
