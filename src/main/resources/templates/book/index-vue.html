@@ -13,10 +13,13 @@
 </head>
 <body class="container-fluid">
 	<div id="app">
-		<h1>Book List</h1>
-		<a style="margin-bottom: 10px" class="btn btn-primary"
-			href="/book-thymeleaf/new" role="button">new Book</a>
+		<router-view></router-view>
+	</div>
 
+	<script type="text/x-template" id="page-index">
+	<div>
+		<h1>Book List</h1>
+		<router-link style="margin-bottom: 10px" class="btn btn-primary" to="input">new Book</router-link>
 		<form v-on:submit.prevent="searchByTitle">
 			<div class="input-group ">
 				<input type="text" class="form-control" name="searchValue"
@@ -46,12 +49,45 @@
 					<td>{{ book.releaseDate }}</td>
 				</tr>
 			</tbody>
-		</table>
+		</table>		
 	</div>
+  	</script>
+	<script type="text/x-template" id="page-input">
+	<div>
+	<h1>Register Book</h1>
+	  	<form  v-on:submit.prevent="doCreateBook">
+			<div class="form-group">
+				<label for="isbn">isbn</label> <input type="number"
+					class="form-control" id="isbn"
+					placeholder="enter isbn"
+					name="isbn" v-model="form.isbn">
+			</div>
+				<div class="form-group">
+				<label for="title">title</label> <input 
+					class="form-control" id="title" placeholder="enter title"
+					name="title" v-model="form.title">
+			</div>
+			<div class="form-group">
+				<label for="isbn">author</label> <input 
+					class="form-control" id="isbn" placeholder="enter author"
+					name="author" v-model="form.author">
+			</div>
+			<div class="form-group">
+				<label for="release-date">release date</label> <input
+					type="date" class="form-control" id="release-date"
+					placeholder="enter release date"
+					name="releaseDate" v-model="form.releaseDate">
+			</div>
+			<router-link class="btn btn-light" to="index">Back to index</router-link>
+			<button type="submit" class="btn btn-primary">create Book</button>
+		</form>
+	</div>		
+	</script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	<script th:src="@{/js/book/vue/app.js}"></script>
 </body>
 </html>
