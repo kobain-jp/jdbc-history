@@ -35,9 +35,10 @@
 			<thead>
 				<tr>
 					<th>isbn</th>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Release Date</th>
+					<th>title</th>
+					<th>author</th>
+					<th>release date</th>
+					<th>action </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -46,6 +47,11 @@
 					<td>{{ book.title }}</td>
 					<td>{{ book.author }}</td>
 					<td>{{ book.releaseDate }}</td>
+					<td><router-link v-bind:to="{ name: 'edit', params: { bookId: book.bookId }}"><i
+						class="fa fa-edit text-secondary"></i></router-link>
+						<router-link v-bind:to="{ name: 'delete', params: { bookId: book.bookId }}"><i
+						class="fa fa-trash text-danger"></i></router-link>
+					</td>
 				</tr>
 			</tbody>
 		</table>		
@@ -53,8 +59,8 @@
   	</script>
 	<script type="text/x-template" id="page-input">
 	<div>
-	<h1>Register Book</h1>
-	  	<form  v-on:submit.prevent="doCreateBook">
+	<h1>{{mode}}</h1>
+	  	<form v-on:submit.prevent="execute">
 			<div class="form-group">
 				<label for="isbn">isbn</label> <input type="number"
 					class="form-control" id="isbn"
@@ -77,8 +83,8 @@
 					placeholder="enter release date"
 					name="releaseDate" v-model="form.releaseDate" v-bind:readonly="readOnly">
 			</div>
-			<router-link class="btn btn-light" to="index">Back to index</router-link>
-			<button type="submit" class="btn btn-primary" v-bind:disabled="isButtonDisabled">create Book</button>
+			<router-link class="btn btn-light" v-bind:to="{name:'index'}">Back to index</router-link>
+			<button type="submit" class="btn btn-primary" v-bind:disabled="isButtonDisabled">{{mode}}</button>
 		</form>
 	</div>		
 	</script>
@@ -87,6 +93,7 @@
 	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<script src="https://unpkg.com/vue-toasted"></script>
 	<script th:src="@{/js/book/vue/app.js}"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 const pageInput = Vue.component('page-input', {
-  props: ['id', 'readOnly'],
+  props: ['mode', 'id', 'readOnly'],
   data: function () {
     return {
       form: {
@@ -12,15 +12,65 @@ const pageInput = Vue.component('page-input', {
     }
   }, methods: {
 
-    doCreateBook: function () {
+    execute: function () {
+
+      //　v-onで{{mode}}でバインドしたいがやり方がわからず。。
+      if (this.mode === 'create') {
+        this.create();
+      } else if (this.mode === 'update') {
+        this.update();
+      } else if (this.mode === 'delete') {
+        this.delete();
+      } else {
+
+      }
+
+    },
+    create: function () {
       axios.post('/api/book', this.form)
-        .then(response => router.push({ path: 'index' }))
+        .then(response => {
+          router.push({ name: 'index' });
+          this.showSuccessToast('create succeeded');
+        })
         .catch(response => console.log(response));
+
+    },
+    update: function () {
+      axios.put('/api/book/' + this.$route.params.bookId, this.form)
+        .then(response => {
+          router.push({ name: 'index' });
+          this.showSuccessToast('update succeeded');
+        })
+        .catch(response => console.log(response));
+
+    },
+    delete: function () {
+      axios.delete('/api/book/' + this.$route.params.bookId)
+        .then(response => {
+          router.push({ name: 'index' });
+          this.showSuccessToast('delete succeeded');
+        })
+        .catch(response => console.log(response));
+
+    },
+    fetchById: function (id) {
+      axios.get('/api/book/' + id)
+        .then(response => this.form = response.data)
+        .catch(response => console.log(response));
+    },
+    showSuccessToast: function (msg) {
+      this.$toasted.success(msg, {
+        position: "bottom-right",
+        duration: 2000
+      });
     }
-    
+
   }, mounted: function () {
 
-    console.log(this.$route.params.bookId);
+    if (this.mode === 'create') {
+      return;
+    }
+    this.fetchById(this.$route.params.bookId);
 
   }, computed: {
     isButtonDisabled: function () {
@@ -39,11 +89,11 @@ const pageIndex = Vue.component('page-index', {
 
     fetch: function () {
       axios.get('/api/book')
+
         .then(response => this.books = response.data)
         .catch(response => console.log(response));
 
-    }
-    ,
+    },
     searchByTitle: function () {
 
       let title = this.$refs.searchValue.value;
@@ -61,9 +111,10 @@ const pageIndex = Vue.component('page-index', {
 });
 
 const routes = [
-  { path: '/index', component: pageIndex },
-  { path: '/new', component: pageInput, props: { readOnly: false } },
-  { path: '/edit/:bookId', component: pageInput, props: { readOnly: false } }
+  { name: 'index', path: '/index', component: pageIndex },
+  { name: 'new', path: '/new', component: pageInput, props: { mode: 'create', readOnly: false } },
+  { name: 'edit', path: '/edit/:bookId', component: pageInput, props: { mode: 'update', readOnly: false } },
+  { name: 'delete', path: '/delete/:bookId', component: pageInput, props: { mode: 'delete', readOnly: true } }
 ]
 
 const router = new VueRouter({
@@ -74,5 +125,6 @@ new Vue({
   el: '#app',
   router: router
 });
+Vue.use(Toasted);
 
-router.push({ path: 'index' })
+router.push({ name: 'index' }).catch(err => { })
