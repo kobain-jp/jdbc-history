@@ -54,7 +54,7 @@ Searchボタンをクリックしてみると、以下のURLに遷移し404 Not 
 http://localhost:8080/employee/search-by-empnm
 
 
-### /employee/search-by-empnmのURLに対するPostリクエストに対するメソッドをControllerに追加しよう
+### employee/search-by-empnmへのPostリクエストに対するメソッドをControllerに追加しよう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaにメソッドを追加
 
@@ -66,13 +66,14 @@ com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaに
 +	}
 ```
 
-以前は@GetMappingにしましたが、今回はPostリクエストをうけとるので、今回は@PostMapping
+indexは@GetMappingにしましたが、今回はPostリクエストをうけとるので、今回は@PostMapping
 
 http://localhost:8080/employee/
 Searchボタンを押下すると空のリストが表示される
 
 ちなみに、ブラウザのURLで直接http://localhost:8080/employee/search-by-empnmを叩くとGETリクエストになるので、
 404になります。ブラウザのURLのリクエストは全てGETリクエスト
+https://qiita.com/ryuuuuuuuuuu/items/94f75183bd700a8b4c15
 
 ###  Postメソッドのリクエストパラメータ（formタグ内のinputの値）を取得して、コンソールにだしてみよう
 
@@ -87,7 +88,8 @@ Searchボタンを押下すると空のリストが表示される
 ```
 
 取得するパラメータ名は`<input type="text" name="searchValue"`なのでsearchValue
-@RequestParamアノテーションを利用して取得する
+
+メソッドの引数にて@RequestParamアノテーションを利用すると取得できる
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaに追加したメソッドを修正
 
@@ -139,11 +141,9 @@ com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaの
 http://localhost:8080/employee
 入力し、検索ボタンを押下
 
-
-
+検索結果が表示されましたか？
 2回目はここまです。
 
-formタグ、Postリクエスト、リクエストのパラメータの取得の仕方
-
+formタグ、Postリクエスト、リクエストのパラメータの取得の仕方などが学習できたかと思います。
 
 お疲れ様でした。
