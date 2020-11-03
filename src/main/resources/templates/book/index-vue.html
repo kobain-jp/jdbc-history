@@ -78,7 +78,7 @@
 					name="releaseDate" v-model="form.releaseDate" v-bind:readonly="readOnly">
 			</div>
 			<router-link class="btn btn-light" to="index">Back to index</router-link>
-			<button type="submit" class="btn btn-primary">create Book</button>
+			<button type="submit" class="btn btn-primary" v-bind:disabled="isButtonDisabled">create Book</button>
 		</form>
 	</div>		
 	</script>

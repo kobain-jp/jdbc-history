@@ -3,6 +3,7 @@ const pageInput = Vue.component('page-input', {
   data: function () {
     return {
       form: {
+        bookId: '',
         isbn: '',
         title: '',
         author: '',
@@ -16,10 +17,15 @@ const pageInput = Vue.component('page-input', {
         .then(response => router.push({ path: 'index' }))
         .catch(response => console.log(response));
     }
-
+    
   }, mounted: function () {
+
     console.log(this.$route.params.bookId);
-    console.log(this.readOnly)
+
+  }, computed: {
+    isButtonDisabled: function () {
+      return (this.form.isbn.length === 0 || this.form.title.length === 0 || this.form.author.length === 0 || this.form.releaseDate.length === 0);
+    }
   },
   template: '#page-input'
 })
