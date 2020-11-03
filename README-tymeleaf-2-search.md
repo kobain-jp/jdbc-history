@@ -66,7 +66,7 @@ actionのURLにPostリクエストを送るということ
 https://developer.mozilla.org/ja/docs/Web/HTML/Element/form
 
 
-### http://localhost:8080/employee/search-by-empnmを受け取るロジックをControllerに追加しよう
+### /employee/search-by-empnmのURLに対するPostリクエスtに対するメソッドをControllerに追加しよう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaにメソッドを追加
 
