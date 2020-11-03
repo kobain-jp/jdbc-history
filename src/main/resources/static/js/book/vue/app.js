@@ -1,4 +1,5 @@
-const pageInput =Vue.component('page-input', {
+const pageInput = Vue.component('page-input', {
+  props: ['id', 'readOnly'],
   data: function () {
     return {
       form: {
@@ -12,15 +13,18 @@ const pageInput =Vue.component('page-input', {
 
     doCreateBook: function () {
       axios.post('/api/book', this.form)
-        .then(response => router.push({ path: 'index' }) )
+        .then(response => router.push({ path: 'index' }))
         .catch(response => console.log(response));
     }
 
+  }, mounted: function () {
+    console.log(this.$route.params.bookId);
+    console.log(this.readOnly)
   },
   template: '#page-input'
 })
 
-const pageIndex =Vue.component('page-index', {
+const pageIndex = Vue.component('page-index', {
   data: function () {
     return {
       books: []
@@ -44,7 +48,6 @@ const pageIndex =Vue.component('page-index', {
     }
 
   },
-
   mounted: function () {
     this.fetch();
   },
@@ -53,11 +56,12 @@ const pageIndex =Vue.component('page-index', {
 
 const routes = [
   { path: '/index', component: pageIndex },
-  { path: '/input', component: pageInput }
+  { path: '/new', component: pageInput, props: { readOnly: false } },
+  { path: '/edit/:bookId', component: pageInput, props: { readOnly: false } }
 ]
 
 const router = new VueRouter({
-	routes: routes
+  routes: routes
 })
 
 new Vue({
