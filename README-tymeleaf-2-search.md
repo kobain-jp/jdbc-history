@@ -7,23 +7,19 @@
 - 検索結果の表示（ヒットすれば表示、ヒットしなければメッセージを表示
 
 バックエンド
-- Controllerに検索リクエスト用のメソッドの実装
-- Repositoryにselect * from employee where emp_nm = ? を投げるロジック追加
+- Controllerクラスに検索リクエスト用のメソッドの実装
+- Repositoryクラスにselect * from employee where emp_nm = ? を投げるロジック追加
 
 ### セットアップ
 *pullとgradle refreshをまず実施してください
 
-*8081ポートなどを使いたい人はapplication.propertiesに以下を追記してください
-
-`server.port=8081`
+*8081ポートなどを使いたい人はapplication.propertiesに`server.port=8081`を追記してください
 
 起動して、前回のページを確認しよう
-
 com/dojo/jdbchistoryrest/JdbcHistoryRestApplication.javaを選択し、
 Run As JavaApplication
 
 http://localhost:8080/employee
-
 Employee Listと２行でればセットアップ完了
 
 ### 検索入力欄と検索ボタンを追加しよう
@@ -31,6 +27,8 @@ Employee Listと２行でればセットアップ完了
 src/main/resources/templates/employee/index.htmlを編集
 
 Postリクエストを投げるので、formタグを追加し、その中にinput,buttonタグを追加しよう
+
+https://developer.mozilla.org/ja/docs/Web/HTML/Element/form
 
 ```
 <body class="container-fluid">
@@ -53,20 +51,7 @@ Searchボタンをクリックしてみると、以下のURLに遷移し404 Not 
 http://localhost:8080/employee/search-by-empnm
 
 
-以下解説
-
-```
-th:action="@{/employee/search-by-empnm}　method="post"
-
-```
-
-actionのURLにPostリクエストを送るということ
-
-
-https://developer.mozilla.org/ja/docs/Web/HTML/Element/form
-
-
-### /employee/search-by-empnmのURLに対するPostリクエスtに対するメソッドをControllerに追加しよう
+### /employee/search-by-empnmのURLに対するPostリクエストに対するメソッドをControllerに追加しよう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaにメソッドを追加
 
@@ -80,31 +65,30 @@ com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaに
 
 以前は@GetMappingにしましたが、今回はPostリクエストをうけとるので、今回は@PostMapping
 
-もう一回、http://localhost:8080/employee/からSearchボタンを押下すると空のリストが表示される
+http://localhost:8080/employee/
+Searchボタンを押下すると空のリストが表示される
 
 ちなみに、ブラウザのURLで直接http://localhost:8080/employee/search-by-empnmを叩くとGETリクエストになるので、
 404になります。ブラウザのURLのリクエストは全てGETリクエスト
 
-###　入力値（リクエストパラメータ）を取得して、コンソールにだしてみよう
+###  Postメソッドのリクエストパラメータ（formタグ内のinputの値）を取得して、コンソールにだしてみよう
 
 
 ```
-
 	<form role="form" th:action="@{/employee/search-by-empnm}"
 		method="post">
-		<input type="text" name="searchValue" 
-			placeholder="search by name" />
+		<input type="text" name="searchValue" placeholder="search by name" />　<-- の値を取得する
 		<button type="submit">Search</button>
 	</form>
 	
 ```
 
-以下のリクエストパラメータの値をとりたい
-
-`<input type="text" name="searchValue" placeholder="search by name" />`
-
+取得するパラメータ名は`<input type="text" name="searchValue"`なのでsearchValue
+@RequestParamアノテーションを利用して取得する
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaに追加したメソッドを修正
+
+inputタグのnameの`@RequestParam("searchValue") String searchValue`を引数に追加
 
 ```
 	@PostMapping("/employee/search-by-empnm")
@@ -115,14 +99,14 @@ U	public String findByTitle(@RequestParam("searchValue") String searchValue,Mode
 
 ```
 
-inputタグのnameの`@RequestParam("searchValue") String searchValue`を引数に追加
-
 http://localhost:8080/employee
 入力し、検索ボタンを押下
 
 コンソールに入力した値が表示されればOK
 
-### DBからデータをロードして表示しよう
+### リクエストのパラメータの値を使ってDBからデータをロードして表示しよう
+
+リポジトリにselect * from Employee where emp_nm like '%'||?||'%'"の結果を取得するロジックを追加しよう
 
 com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaにメソッドを追加
 
@@ -133,6 +117,8 @@ com/dojo/jdbchistoryrest/domain/employee/EmployeeRepository.javaにメソッド�
 	}
 
 ```
+
+リポジトリロジックをコントローラから呼び出そう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaのメソッドを編集
 
@@ -150,4 +136,11 @@ com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaの
 http://localhost:8080/employee
 入力し、検索ボタンを押下
 
-2回目はここまで、お疲れ様でした。
+
+
+2回目はここまです。
+
+formタグ、Postリクエスト、リクエストのパラメータの取得の仕方
+
+
+お疲れ様でした。
