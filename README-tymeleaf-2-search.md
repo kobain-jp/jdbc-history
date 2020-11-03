@@ -16,10 +16,13 @@
 *8081ポートなどを使いたい人はapplication.propertiesに`server.port=8081`を追記してください
 
 起動して、前回のページを確認しよう
+```
+
 com/dojo/jdbchistoryrest/JdbcHistoryRestApplication.javaを選択し、
 Run As JavaApplication
-
+```
 http://localhost:8080/employee
+
 Employee Listと２行でればセットアップ完了
 
 ### 検索入力欄と検索ボタンを追加しよう
