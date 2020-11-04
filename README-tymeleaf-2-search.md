@@ -54,6 +54,10 @@ Searchボタンをクリックしてみると、以下のURLに遷移し404 Not 
 http://localhost:8080/employee/search-by-empnm
 
 
+POSTリクエストの中身をみてみよう
+https://www.tsukimi.net/chrome-developer-tools_post.html
+
+
 ### employee/search-by-empnmへのPostリクエストに対するメソッドをControllerに追加しよう
 
 com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaにメソッドを追加
