@@ -8,6 +8,12 @@
 </head>
 <body class="container-fluid">
 	<h1>Employee List</h1>
+	<form role="form" th:action="@{/employee/search-by-empnm}"
+		method="post">
+		<input type="text" name="searchValue" placeholder="search by name" />
+		<button class="btn btn-primary" type="submit">Search</button>
+	</form>
+
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>

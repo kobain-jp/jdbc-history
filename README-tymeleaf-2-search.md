@@ -97,7 +97,7 @@ inputタグのnameの`@RequestParam("searchValue") String searchValue`を引数�
 
 ```
 	@PostMapping("/employee/search-by-empnm")
-U	public String findByTitle(@RequestParam("searchValue") String searchValue,Model model) {
+U	public String findByEmpNm(@RequestParam("searchValue") String searchValue,Model model) {
 +		System.out.println(searchValue);
 		return "/employee/index";
 	}
@@ -130,7 +130,7 @@ com/dojo/jdbchistoryrest/controller/web/employee/EmployeeIndexController.javaの
 ```
 
 	@PostMapping("/employee/search-by-empnm")
-	public String findByTitle(@RequestParam("searchValue") String searchValue,Model model) {
+	public String findByEmpNm(@RequestParam("searchValue") String searchValue,Model model) {
 -		System.out.println(searchValue);
 +		model.addAttribute("employeeList", repository.findByEmpName(searchValue));
 		return "/employee/index";

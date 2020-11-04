@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dojo.jdbchistoryrest.domain.employee.EmployeeRepository;
 
@@ -19,10 +21,16 @@ public class EmployeeIndexController {
 
 	@GetMapping("/employee")
 	public String index(Model model) {
-		
+
 		model.addAttribute("employeeList", repository.findAll());
 		return "/employee/index";
-		
+
+	}
+
+	@PostMapping("/employee/search-by-empnm")
+	public String findByEmpNm(@RequestParam("searchValue") String searchValue, Model model) {
+		model.addAttribute("employeeList", repository.findByEmpNm(searchValue));
+		return "/employee/index";
 	}
 
 }

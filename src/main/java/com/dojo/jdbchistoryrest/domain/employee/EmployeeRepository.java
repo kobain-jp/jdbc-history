@@ -21,4 +21,9 @@ public class EmployeeRepository {
 		return jdbcTemplate.query("select * from Employee", new BeanPropertyRowMapper<Employee>(Employee.class));
 	}
 
+	public List<Employee> findByEmpNm(String empNm) {
+		return jdbcTemplate.query("select * from Employee where emp_nm like '%'||?||'%'", new Object[] { empNm },
+				new BeanPropertyRowMapper<Employee>(Employee.class));
+	}
+
 }
