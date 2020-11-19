@@ -1,4 +1,4 @@
-# jdbc-history-rest
+# jdbc-history
 
 ### download project via Spring Initializr or via git clone
 https://start.spring.io/
