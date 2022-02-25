@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.dojo.jdbchistory.domain.user.entity.User;
 
 @Repository("namedPramJdbcTplUserRepository")
-public class NamedPramJdbcTplUserRepository implements IUserReposiroty {
+public class NamedPramJdbcTplUserRepository implements IUserRepositoty {
 
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
