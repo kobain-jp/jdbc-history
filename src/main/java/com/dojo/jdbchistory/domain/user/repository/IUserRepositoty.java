@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.dojo.jdbchistory.domain.user.entity.User;
 
-public interface IUserReposiroty {
+public interface IUserRepositoty {
 
 	public List<User> findAll();
 

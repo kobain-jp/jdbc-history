@@ -18,14 +18,14 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dojo.jdbchistory.domain.user.entity.User;
-import com.dojo.jdbchistory.domain.user.repository.IUserReposiroty;
+import com.dojo.jdbchistory.domain.user.repository.IUserRepositoty;
 import com.dojo.jdbchistory.domain.user.repository.NamedPramJdbcTplUserRepository;
 
 @JdbcTest
 @Transactional
 public class NamedPramJdbcTplUserRepositoryTest {
 
-	IUserReposiroty it;
+	IUserRepositoty it;
 
 	@Autowired
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;

@@ -6,7 +6,7 @@ public class User {
 
 	private long userId;
 	private String userName;
-	private Date birthDay;
+	private Date birthday;
 
 	public long getUserId() {
 		return userId;
@@ -25,11 +25,11 @@ public class User {
 	}
 
 	public Date getBirthDay() {
-		return birthDay;
+		return birthday;
 	}
 
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
+	public void setBirthDay(Date birthday) {
+		this.birthday = birthday;
 	}
 
 }
